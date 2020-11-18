@@ -1,0 +1,21 @@
+
+a {
+    max-width: 100px;
+    font-weight: 600;
+    color: rgb(200, 200, 200);
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+a:hover {
+    cursor: pointer;
+    color: rgb(220, 220, 220);
+}
+
+div {
+    width: 200px;
+
+    display: flex;
+    justify-content: space-between;
+}

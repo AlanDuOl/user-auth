@@ -1,0 +1,5 @@
+<a *ngIf="!(isAutheticated | async)" routerLink="/login">Login</a>
+<div *ngIf="isAutheticated | async">
+    <span>Hello, {{userName | async | titlecase}}</span>
+    <a routerLink="/logout">Logout</a>
+</div>

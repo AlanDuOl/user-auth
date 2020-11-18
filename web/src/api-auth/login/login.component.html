@@ -1,0 +1,20 @@
+<section class="app-login">
+    <h3>Login</h3>
+    <form class="form-login" novalidate [formGroup]="form" (ngSubmit)="handleSubmit()">
+        <label class="text-input">
+            Email
+            <input type="text" formControlName="email" />
+        </label>
+        <label class="text-input">
+            Password
+            <input type="password" formControlName="password" />
+        </label>
+        <label class="box-input">
+            Keep me logged
+            <input type="checkbox" formControlName="keepLogged" />
+        </label>
+        <a routerLink="/changePassword">Forgot password ?</a>
+        <a routerLink="/register">Create account</a>
+        <button type="submit">Login</button>
+    </form>
+</section>

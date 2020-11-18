@@ -1,0 +1,30 @@
+
+.app-menu {
+    width: 100%;
+    height: 10vh;
+
+    background: cadetblue;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.menu-option {
+    max-width: 100px;
+    font-weight: 600;
+    color: rgb(200, 200, 200);
+    text-decoration: none;
+
+    transition: color 0.2s;
+}
+
+.menu-option:hover {
+    cursor: pointer;
+    color: rgb(220, 220, 220);
+}
