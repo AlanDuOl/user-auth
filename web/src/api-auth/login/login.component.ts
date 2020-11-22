@@ -18,6 +18,11 @@ export class LoginComponent implements OnInit {
     keepLogged: new FormControl('')
   });
 
+  requestError = {
+    message: 'Validation failed',
+    on: false
+  }
+
   constructor(private auth: AuthService, private dialog: DialogService) { }
 
   ngOnInit(): void {
@@ -36,10 +41,13 @@ export class LoginComponent implements OnInit {
     return of(true);
   }
 
-  handleSubmit(): void {
+  async handleSubmit(): Promise<void> {
     if (this.form.valid) {
       const user = this.getLoginData();
-      this.auth.login(user, this.form.get('keepLogged').value);
+      const result = await this.auth.login(user, this.form.get('keepLogged').value);
+      if (!result) {
+        this.requestError.on = true;
+      }
     }
   }
 

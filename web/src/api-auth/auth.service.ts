@@ -48,26 +48,29 @@ export class AuthService {
     return this.http.post<AuthUser>(apiPath.login, user);
   }
 
-  login(user: LoginUser, keepLogged: boolean): void {
-    this.authenticate(user).subscribe(
-      res => {
-        // if user wants to stay logged, save it to localStorage
-        // otherwise save it to sessionStorage
-        if (keepLogged) {
-          localStorage.setItem('user', JSON.stringify(res));
+  login(user: LoginUser, keepLogged: boolean): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      this.authenticate(user).subscribe(
+        res => {
+          // if user wants to stay logged, save it to localStorage
+          // otherwise save it to sessionStorage
+          if (keepLogged) {
+            localStorage.setItem('user', JSON.stringify(res));
+          }
+          else {
+            sessionStorage.setItem('user', JSON.stringify(res));
+          }
+          // set user
+          this.user.next({ name: res.name });
+          // redirect to home page
+          this.router.navigate([uiPath.home]);
+          resolve(true);
+        },
+        err => {
+          resolve(false);
         }
-        else {
-          sessionStorage.setItem('user', JSON.stringify(res));
-        }
-        // set user
-        this.user.next({ name: res.name });
-        // redirect to home page
-        this.router.navigate([uiPath.home]);
-      },
-      err => {
-        console.log(err);
-      }
-    );
+      );
+    });
   }
 
   logout(): Observable<string> {

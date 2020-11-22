@@ -1,5 +1,6 @@
 <section class="app-login">
     <h3>Login</h3>
+    <p id="error" *ngIf="requestError.on">{{requestError.message}}</p>
     <form class="form-login" novalidate [formGroup]="form" (ngSubmit)="handleSubmit()">
         <label class="text-input">
             Email
