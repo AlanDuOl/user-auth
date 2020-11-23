@@ -20,4 +20,9 @@ export const logoutStatus = {
 export const validationMessage = {
     required: "Field required",
     email: "Not a valid email",
+    maxlength: "Limit of character exceeded",
+    minlength: "Minimun of 6 characters",
+    containdigit: 'Must contain a number',
+    containuppercase: 'Must contain an uppercase letter',
+    containlowercase: 'Must contain a lowercase letter'
 }
