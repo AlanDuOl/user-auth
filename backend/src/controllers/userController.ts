@@ -28,7 +28,7 @@ const userController = {
         }
     },
 
-    async createAsync(req: Request, res: Response) {
+    async registerAsync(req: Request, res: Response) {
 
         const userRepository = getRepository(User);
         const data = { ...req.body };
@@ -36,8 +36,10 @@ const userController = {
         const schema = Yup.object().shape({
             name: Yup.string().required().max(100),
             email: Yup.string().email().required().max(100),
-            password: Yup.string().required().max(8).min(6),
-            confirmPassword: Yup.string().required().max(8).min(6),
+            password: Yup.string().required().max(8).min(6)
+                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
+            confirmPassword: Yup.string().required().max(8).min(6)
+                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
         });
         
         // validate form data
@@ -50,8 +52,8 @@ const userController = {
 
         // check if user with email exists
         const userFromDb = await userService.findByEmailAsync(data.email);
-        if (!!userFromDb) {
-            return res.status(400).json({ message: "User already exists" });
+        if (!!userFromDb[0]) {
+            return res.status(400).json({ message: "Email already registered" });
         }
 
         // hash password
