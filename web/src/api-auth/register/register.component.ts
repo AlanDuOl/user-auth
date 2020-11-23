@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../../models';
 import { DialogService } from '../dialog.service';
 import { passwordConstraints } from '../../utils';
@@ -41,10 +41,7 @@ export class RegisterComponent implements OnInit {
 
   startSubmmit = false;
 
-  requestError = {
-    message: 'Failed to create user',
-    on: false
-  }
+  message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService, private router: Router) { }
 
@@ -66,20 +63,34 @@ export class RegisterComponent implements OnInit {
   }
 
   handleSubmit(): void {
+    // proceed if form data is valid
     if (this.form.valid) {
+      // allow navigation without canDeactivate pop-up
       this.startSubmmit = true;
-      const user = this.getRegisterData();
-      this.auth.register(user).subscribe(
-        () => {
-          // navigate to login on successful registration
-          this.router.navigate([uiPath.login]);
-        },
-        err => {
-          // set error message on request error
-          this.requestError.on = true;
-          this.requestError.message = err.error?.message;
-        }
-      );
+      // check if passwords are equal
+      if (this.passwordsEqual()) {
+        // get form data in correct format
+        const user = this.getRegisterData();
+        // submit new user data
+        this.auth.register(user).subscribe(
+          () => {
+            // navigate to login on successful registration
+            this.router.navigate([uiPath.login]);
+          },
+          err => {
+            // allow canDeactivate pop-up if request failed
+            this.startSubmmit = false;
+            // set error message on request error
+            !!err.error ? this.message$.next(err.error.message) : this.message$.next(null);
+          }
+        );
+      }
+      else {
+        // allow canDeactivate pop-up if passwords validation failed
+        this.startSubmmit = false;
+        // set validation failed message
+        this.message$.next('Passwords are different');
+      }
     }
   }
 
@@ -91,6 +102,13 @@ export class RegisterComponent implements OnInit {
       confirmPassword: this.form.get('confirmPassword').value
     }
     return user;
+  }
+
+  private passwordsEqual(): boolean {
+    if (this.form.get('password').value === this.form.get('confirmPassword').value) {
+      return true;
+    }
+    return false;
   }
 
 }

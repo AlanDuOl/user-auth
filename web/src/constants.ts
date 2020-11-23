@@ -26,5 +26,4 @@ export const validationMessage = {
     containuppercase: 'Must contain an uppercase letter',
     containlowercase: 'Must contain a lowercase letter',
     notword: 'Must contain a not word character',
-    differentPasswords: 'Passwords are different'
 }

@@ -39,16 +39,3 @@ function checkPassword(value: string): ValidationErrors | null {
     }
     return null;
 }
-
-// export function passwordEquality(password: AbstractControl): ValidatorFn {
-//     return function (confirmPassword: AbstractControl): ValidationErrors | null {
-//         if (confirmPassword.value.length >= 6 && confirmPassword.value.length <= 8) {
-//             if (confirmPassword.value !== password.value) {
-//                 return { differentPasswords: validationMessage.differentPasswords };
-//             }
-//         }
-//         else {
-//             return null;
-//         }
-//     }
-// }
