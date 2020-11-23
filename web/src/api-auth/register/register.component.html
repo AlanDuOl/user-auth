@@ -4,18 +4,26 @@
         <label class="text-input">
             User Name
             <input type="text" formControlName="name" />
+            <app-validation-error [errors]="form.get('name').errors"
+            *ngIf="!!form.get('name').errors && form.get('name').touched"></app-validation-error>
         </label>
         <label class="text-input">
             Email
             <input type="text" formControlName="email" />
+            <app-validation-error [errors]="form.get('email').errors"
+            *ngIf="!!form.get('email').errors && form.get('email').touched"></app-validation-error>
         </label>
         <label class="text-input">
             Password
             <input type="password" formControlName="password" />
+            <app-validation-error [errors]="form.get('password').errors"
+            *ngIf="!!form.get('password').errors && form.get('password').touched"></app-validation-error>
         </label>
         <label class="text-input">
             Confirm Password
             <input type="password" formControlName="confirmPassword" />
+            <app-validation-error [errors]="form.get('password').errors"
+            *ngIf="!!form.get('password').errors && form.get('password').touched"></app-validation-error>
         </label>
         <button type="submit">Register</button>
     </form>
