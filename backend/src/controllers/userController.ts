@@ -72,7 +72,7 @@ const userController = {
 
         const newUser = userRepository.create(user)
         await userRepository.save(newUser);
-        return res.status(201);
+        return res.status(201).json({ message: 'User created successfully'});
 
     },
 
