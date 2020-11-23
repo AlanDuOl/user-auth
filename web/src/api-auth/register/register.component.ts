@@ -39,7 +39,7 @@ export class RegisterComponent implements OnInit {
     ]),
   });
 
-  stratSubmmit = false;
+  startSubmmit = false;
 
   requestError = {
     message: 'Failed to create user',
@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
   canDeactivate(): Observable<boolean> {
     if (!this.form.pristine) {
       // if form has been touched and is valid, allow navigation without pop-up
-      if (this.form.valid && this.stratSubmmit) {
+      if (this.form.valid && this.startSubmmit) {
         return of(true);
       }
       // show pop-up to allow navigation
@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit {
 
   handleSubmit(): void {
     if (this.form.valid) {
-      this.stratSubmmit = true;
+      this.startSubmmit = true;
       const user = this.getRegisterData();
       this.auth.register(user).subscribe(
         () => {

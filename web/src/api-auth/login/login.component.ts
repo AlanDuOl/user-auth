@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
     keepLogged: new FormControl('')
   });
 
+  startSubmmit = false;
+
   requestError = {
     message: 'Authentication failed',
     on: false
@@ -36,7 +38,7 @@ export class LoginComponent implements OnInit {
   canDeactivate(): Observable<boolean> {
     if (!this.form.pristine) {
       // if form has been touched and is valid, allow navigation without pop-up
-      if (this.form.valid) {
+      if (this.form.valid && this.startSubmmit) {
         return of(true);
       }
       // show pop-up to allow navigation
@@ -48,6 +50,7 @@ export class LoginComponent implements OnInit {
 
   async handleSubmit(): Promise<void> {
     if (this.form.valid) {
+      this.startSubmmit = true;
       const user = this.getLoginData();
       const result = await this.auth.login(user, this.form.get('keepLogged').value);
       if (!result) {
