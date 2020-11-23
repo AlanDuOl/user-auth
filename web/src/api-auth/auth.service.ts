@@ -3,7 +3,7 @@ import { BehaviorSubject, concat, Observable, of } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { apiPath, logoutStatus, uiPath } from '../constants';
-import { LoginUser, AuthUser } from '../models';
+import { LoginUser, AuthUser, User } from '../models';
 import { Router } from '@angular/router';
 
 interface IUser {
@@ -87,5 +87,9 @@ export class AuthService {
     localStorage.removeItem('user');
     sessionStorage.removeItem('user');
     this.user.next(null);
+  }
+
+  register(data: User): Observable<any> {
+    return this.http.post<any>(apiPath.register, data);
   }
 }
