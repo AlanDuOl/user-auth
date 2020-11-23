@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
   });
 
   requestError = {
-    message: 'Validation failed',
+    message: 'Authentication failed',
     on: false
   }
 
