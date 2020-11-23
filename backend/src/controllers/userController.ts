@@ -36,8 +36,8 @@ const userController = {
         const schema = Yup.object().shape({
             name: Yup.string().required().max(100),
             email: Yup.string().email().required().max(100),
-            password: Yup.string().required(),
-            confirmPassword: Yup.string().required(),
+            password: Yup.string().required().max(8).min(6),
+            confirmPassword: Yup.string().required().max(8).min(6),
         });
         
         // validate form data
@@ -80,7 +80,7 @@ const userController = {
         
         const schema = Yup.object().shape({
             email: Yup.string().email().required().max(100),
-            password: Yup.string().required(),
+            password: Yup.string().required().min(6).max(8),
         });
 
         // validate form data
