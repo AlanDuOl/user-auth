@@ -66,8 +66,7 @@ export class RegisterComponent implements OnInit {
     if (this.form.valid) {
       const user = this.getRegisterData();
       this.auth.register(user).subscribe(
-        res => {
-          console.log('user create', res);
+        () => {
           this.router.navigate([uiPath.login]);
         },
         err => {
