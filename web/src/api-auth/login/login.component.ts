@@ -37,7 +37,8 @@ export class LoginComponent implements OnInit {
 
   canDeactivate(): Observable<boolean> {
     if (!this.form.pristine) {
-      // if form has been touched and is valid, allow navigation without pop-up
+      // if form has been touched and is valid, allow navigation without pop-up if it started after
+      // a submit
       if (this.form.valid && this.startSubmmit) {
         return of(true);
       }
