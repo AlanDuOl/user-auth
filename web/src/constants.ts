@@ -20,6 +20,4 @@ export const logoutStatus = {
 export const validationMessage = {
     required: "Field required",
     email: "Not a valid email",
-    pattern: "Not a valid number",
-    maxlength: "Limit of characters exceeded"
 }

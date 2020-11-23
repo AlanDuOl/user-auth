@@ -1,0 +1,8 @@
+
+.error-message {
+  list-style-type: none;
+  padding: 0;
+  margin: 0.5em 0;
+  font-size: 0.8em;
+  color: red;
+}

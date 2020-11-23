@@ -7,6 +7,7 @@ import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthMenuComponent } from './auth-menu/auth-menu.component';
+import { ValidationErrorComponent } from '../app/validation-error/validation-error.component';
 
 
 @NgModule({
@@ -15,6 +16,7 @@ import { AuthMenuComponent } from './auth-menu/auth-menu.component';
     LogoutComponent,
     RegisterComponent,
     ResetPasswordComponent,
+    ValidationErrorComponent,
     AuthMenuComponent
   ],
   imports: [

@@ -5,10 +5,14 @@
         <label class="text-input">
             Email
             <input type="text" formControlName="email" />
+            <app-validation-error [errors]="form.get('email').errors"
+            *ngIf="!!form.get('email').errors && form.get('email').touched"></app-validation-error>
         </label>
         <label class="text-input">
             Password
             <input type="password" formControlName="password" />
+            <app-validation-error [errors]="form.get('password').errors"
+            *ngIf="!!form.get('password').errors && form.get('password').touched"></app-validation-error>
         </label>
         <label class="box-input">
             Keep me logged
