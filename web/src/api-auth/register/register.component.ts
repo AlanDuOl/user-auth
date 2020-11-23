@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { User } from '../../models';
 import { DialogService } from '../dialog.service';
-import { valueConstraints } from '../../utils';
+import { passwordConstraints } from '../../utils';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { uiPath } from 'src/constants';
@@ -29,18 +29,18 @@ export class RegisterComponent implements OnInit {
       Validators.required,
       Validators.minLength(6),
       Validators.maxLength(8),
-      valueConstraints
+      passwordConstraints
     ]),
     confirmPassword: new FormControl('', [
       Validators.required,
       Validators.minLength(6),
       Validators.maxLength(8),
-      valueConstraints
+      passwordConstraints
     ]),
   });
 
   requestError = {
-    message: 'Validation failed',
+    message: 'Failed to create user',
     on: false
   }
 
@@ -67,11 +67,14 @@ export class RegisterComponent implements OnInit {
       const user = this.getRegisterData();
       this.auth.register(user).subscribe(
         () => {
+          // navigate to login on successful registration
           this.router.navigate([uiPath.login]);
         },
         err => {
+          // set error message on request error
+          console.log('error', err)
           this.requestError.on = true;
-          this.requestError.message = err.error.message;
+          this.requestError.message = err.error?.message;
         }
       );
     }

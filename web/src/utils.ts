@@ -1,16 +1,16 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { validationMessage } from './constants';
 
-export function valueConstraints(controls: AbstractControl): ValidationErrors | null {
+export function passwordConstraints(controls: AbstractControl): ValidationErrors | null {
     let controlValue: string = controls.value;
     let result = null;
     if (controlValue.length >= 6 && controlValue.length <= 8) {
-        result = checkValue(controlValue);
+        result = checkPassword(controlValue);
     }
     return result;
 }
 
-function checkValue(value: string): ValidationErrors | null {
+function checkPassword(value: string): ValidationErrors | null {
     let matchValue = null;
     let error: ValidationErrors = {};
     // check for digit
