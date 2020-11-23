@@ -22,8 +22,8 @@
         <label class="text-input">
             Confirm Password
             <input type="password" formControlName="confirmPassword" />
-            <app-validation-error [errors]="form.get('password').errors"
-            *ngIf="!!form.get('password').errors && form.get('password').touched"></app-validation-error>
+            <app-validation-error [errors]="form.get('confirmPassword').errors"
+            *ngIf="!!form.get('confirmPassword').errors && form.get('confirmPassword').touched"></app-validation-error>
         </label>
         <button type="submit">Register</button>
     </form>
