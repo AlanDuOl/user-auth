@@ -1,9 +1,12 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { validationMessage } from './constants';
 
-export function containsValue(controls: AbstractControl): ValidationErrors | null {
+export function valueConstraints(controls: AbstractControl): ValidationErrors | null {
     let controlValue: string = controls.value;
-    let result = checkValue(controlValue);
+    let result = null;
+    if (controlValue.length >= 6 && controlValue.length <= 8) {
+        result = checkValue(controlValue);
+    }
     return result;
 }
 
@@ -31,7 +34,7 @@ function checkValue(value: string): ValidationErrors | null {
     // check for not word character
     matchValue = value.match(/\W+/);
     if (!matchValue) {
-        error['containlowercase'] = validationMessage.containlowercase;
+        error['notword'] = validationMessage.notword;
         return error;
     }
     return null;

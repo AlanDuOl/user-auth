@@ -5,7 +5,7 @@ import { Observable, of } from 'rxjs';
 import { User } from '../../models';
 import { apiPath } from '../../constants';
 import { DialogService } from '../dialog.service';
-import { containsValue } from '../../utils';
+import { valueConstraints } from '../../utils';
 
 @Component({
   selector: 'app-register',
@@ -15,18 +15,26 @@ import { containsValue } from '../../utils';
 export class RegisterComponent implements OnInit {
 
   form = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.maxLength(100)]),
-    email: new FormControl('', [Validators.email, Validators.required, Validators.maxLength(100)]),
+    name: new FormControl('', [
+      Validators.required,
+      Validators.maxLength(100)
+    ]),
+    email: new FormControl('', [
+      Validators.required,
+      Validators.email,
+      Validators.maxLength(100)
+    ]),
     password: new FormControl('', [
       Validators.required,
-      Validators.maxLength(8),
       Validators.minLength(6),
-      containsValue
+      Validators.maxLength(8),
+      valueConstraints
     ]),
     confirmPassword: new FormControl('', [
       Validators.required,
-      Validators.maxLength(8),
       Validators.minLength(6),
+      Validators.maxLength(8),
+      valueConstraints
     ]),
   });
 
