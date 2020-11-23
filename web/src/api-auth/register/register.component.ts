@@ -33,8 +33,14 @@ export class RegisterComponent implements OnInit {
 
   canDeactivate(): Observable<boolean> {
     if (!this.form.pristine) {
+      // if form has been touched and is valid, allow navigation without pop-up
+      if (this.form.valid) {
+        return of(true);
+      }
+      // show pop-up to allow navigation
       return this.dialog.confirmation();
     }
+    // if form has not been touched allow navigation without pop-up
     return of(true);
   }
 
