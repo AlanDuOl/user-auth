@@ -2,8 +2,9 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne
 import Role from './role';
 import { Verification } from "./Verification";
 
-@Entity('users')
+@Entity()
 export default class User {
+
     @PrimaryGeneratedColumn('increment')
     id: number;
 
@@ -24,5 +25,6 @@ export default class User {
     roles: Role[];
 
     @OneToOne(() => Verification, verification => verification.user)
-    verification: Verification
+    verification: Verification;
+
 }
