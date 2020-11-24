@@ -1,14 +1,15 @@
-import {Entity, Column, OneToOne, JoinColumn } from "typeorm";
+import {Entity, Column, OneToOne, JoinColumn, PrimaryColumn } from "typeorm";
 import User from "./user";
 
 
 @Entity()
 export class Verification {
 
-    @Column()
+    @PrimaryColumn()
     token: string;
 
     @OneToOne(() => User, user => user.verification)
     @JoinColumn()
     user: User;
+    
 }
