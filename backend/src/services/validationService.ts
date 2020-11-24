@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { RegisterUser } from '../viewmodels';
+import { LoginUser, RegisterUser } from '../viewmodels';
 
 const validationService = {
     async validateRegisterDataAsync(data: RegisterUser): Promise<void> {
@@ -13,6 +13,17 @@ const validationService = {
                 .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
         });
         
+        // validate form data
+        await schema.validate(data, { abortEarly: false });
+    },
+
+    async validateLoginDataAsync(data: LoginUser) {
+        // define structure of object to be validated
+        const schema = Yup.object().shape({
+            email: Yup.string().email().required().max(100),
+            password: Yup.string().required().min(6).max(8),
+        });
+
         // validate form data
         await schema.validate(data, { abortEarly: false });
     }
