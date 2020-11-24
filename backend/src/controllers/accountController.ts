@@ -2,11 +2,11 @@ import { Request, Response } from 'express';
 import { getRepository } from 'typeorm';
 import authService from '../services/authService';
 import userService from '../services/userService';
+import validationService from '../services/validationService';
 import User from '../models/user';
 import Role from '../models/role';
 import { roleNames } from '../constants';
-import * as Yup from 'yup';
-import { UserData } from '../viewmodels';
+import { RegisterUser, UserData } from '../viewmodels';
 
 const accountController = {
 
@@ -31,32 +31,23 @@ const accountController = {
     async registerAsync(req: Request, res: Response) {
 
         const userRepository = getRepository(User);
-        const data = { ...req.body };
+        const data: RegisterUser = { ...req.body };
 
-        const schema = Yup.object().shape({
-            name: Yup.string().required().max(100),
-            email: Yup.string().email().required().max(100),
-            password: Yup.string().required().max(8).min(6)
-                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
-            confirmPassword: Yup.string().required().max(8).min(6)
-                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
-        });
-        
-        // validate form data
-        await schema.validate(data, { abortEarly: false });
+        // validate data format
+        await validationService.validateRegisterDataAsync(data);
 
         // check if passwords match
         if (data.password !== data.confirmPassword) {
             return res.status(400).json({ message: "Passwords don't match" });
         }
 
-        // check if user with email exists
+        // check if user with email does not exist
         const userFromDb = await userService.findByEmailAsync(data.email);
         if (!!userFromDb[0]) {
             return res.status(400).json({ message: "Email already registered" });
         }
 
-        // hash password
+        // create a password hash
         const hash = await authService.hashPasswordAsync(data.password);
 
         // Add roles
