@@ -7,7 +7,8 @@ import { LoginUser, AuthUser, User } from '../models';
 import { Router } from '@angular/router';
 
 interface IUser {
-  name: string
+  name: string,
+  roles: string[]
 }
 
 @Injectable({
@@ -21,6 +22,23 @@ export class AuthService {
 
   isAuthenticated(): Observable<boolean> {
     return this.getUser().pipe(map(u => !!u));
+  }
+
+  isAuthorized(requiredRole: string): Observable<boolean> {
+    return this.user.pipe(take(1), map(user => this.checkRole(user, requiredRole)))
+  }
+
+  checkRole(user: IUser, requiredRole: string): boolean {
+    // if user is valid, check if it has the required role
+    if (!!user) {
+      const result = user.roles.find(uRole => uRole === requiredRole);
+      if (!!result) {
+        return true;
+      }
+    }
+    else {
+      return false;
+    }
   }
 
   getUser(): Observable<IUser> {
@@ -61,7 +79,7 @@ export class AuthService {
             sessionStorage.setItem('user', JSON.stringify(res));
           }
           // set user
-          this.user.next({ name: res.name });
+          this.user.next({ name: res.name, roles: res.roles });
           // redirect to home page
           this.router.navigate([uiPath.home]);
           resolve(true);
