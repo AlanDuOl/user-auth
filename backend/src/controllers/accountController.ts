@@ -8,7 +8,7 @@ import { roleNames } from '../constants';
 import * as Yup from 'yup';
 import { UserData } from '../viewmodels';
 
-const userController = {
+const accountController = {
 
     async getAsync(req: Request, res: Response) {
         const authorization = req.header('Authorization');
@@ -111,8 +111,10 @@ const userController = {
             res.status(400).json({ message: 'Authentication failed' });
         }
 
-    }
+    },
+
+    async validateAsync() {}
 
 }
 
-export default userController;
+export default accountController;
