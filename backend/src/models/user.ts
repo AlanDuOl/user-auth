@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from "typeorm";
 import Role from './role';
+import { Verification } from "./Verification";
 
 @Entity('users')
 export default class User {
@@ -15,7 +16,13 @@ export default class User {
     @Column()
     passwordHash: string;
 
+    @Column()
+    isVerified: boolean;
+
     @ManyToMany(() => Role, { cascade: true })
     @JoinTable({ name: 'userRoles' })
     roles: Role[];
+
+    @OneToOne(() => Verification, verification => verification.user)
+    verification: Verification
 }
