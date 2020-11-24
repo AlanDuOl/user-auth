@@ -1,6 +1,6 @@
 import Role from './models/role';
 
-export interface UserData {
+export interface NewUser {
     name: string,
     email: string,
     passwordHash: string,

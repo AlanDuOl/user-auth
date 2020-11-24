@@ -30,10 +30,10 @@ const accountController = {
 
     async registerAsync(req: Request, res: Response) {
 
-        const userRepository = getRepository(User);
+        // grab data from request
         const data: RegisterUser = { ...req.body };
 
-        // validate data format
+        // validate data format/content
         await validationService.validateRegisterDataAsync(data);
 
         // check if passwords match
@@ -41,40 +41,26 @@ const accountController = {
             return res.status(400).json({ message: "Passwords don't match" });
         }
 
-        // check if user with email does not exist
+        // check if user with the given email does not exist
         const userFromDb = await userService.findByEmailAsync(data.email);
-        if (!!userFromDb[0]) {
+        if (!!userFromDb) {
             return res.status(400).json({ message: "Email already registered" });
         }
 
-        // create a password hash
-        const hash = await authService.hashPasswordAsync(data.password);
-
-        // Add roles
-        const userRole = new Role();
-        userRole.name = roleNames.user;
-
-        const user: UserData = {
-            name: data.name,
-            email: data.email,
-            passwordHash: hash,
-            roles: [userRole],
-            isVerified: false
-        }
-
-        const newUser = userRepository.create(user)
-        await userRepository.save(newUser);
+        // create new user
+        await userService.createUserAsync(data);
+        
+        // return success response
         return res.status(201).json({ message: 'User created successfully'});
 
     },
 
     async loginAsync(req: Request, res: Response) {
-
+        // grab data from request
         const data: LoginUser = { ...req.body };
-        // validate input data
+
+        // validate input data format/content
         await validationService.validateLoginDataAsync(data);
-        
-        // check if user account is verified
 
         // check if user with email exists
         const userFromDb = await userService.findByEmailAsync(data.email);
@@ -83,13 +69,19 @@ const accountController = {
             return res.status(404).json({ message: "Wrong credentials" });
         }
 
+        // check if user account is verified
+        const isVerified = await userService.isVerified(data.email);
+        if (!isVerified) {
+            return res.status(400).json({ message: "Account not verified" });
+        }
+
         // validate password
         const isValid = await authService
         .validatePasswordAsync(data.password, userFromDb.passwordHash);
         if (isValid) {
             // get user data and generate the authentication token
-            const userData = await userService.getUserDataAsync(userFromDb);
-            const result = await authService.generateTokenAsync(userData);
+            const payloadUser = await userService.getPayloadUserAsync(userFromDb);
+            const result = await authService.generateTokenAsync(payloadUser);
             res.status(200).json(result);
         }
         else {
