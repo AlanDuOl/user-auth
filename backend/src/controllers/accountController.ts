@@ -1,12 +1,8 @@
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
 import authService from '../services/authService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
-import User from '../models/user';
-import Role from '../models/role';
-import { roleNames } from '../constants';
-import { RegisterUser, UserData, LoginUser } from '../viewmodels';
+import { RegisterUser, LoginUser } from '../viewmodels';
 
 const accountController = {
 
