@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from "typeorm";
 import Role from './role';
-import { Verification } from "./Verification";
+import { Verification } from "./verification";
 
 @Entity()
 export default class User {
