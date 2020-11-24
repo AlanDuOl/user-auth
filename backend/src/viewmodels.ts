@@ -4,7 +4,8 @@ export interface UserData {
     name: string,
     email: string,
     passwordHash: string,
-    roles: Role[]
+    roles: Role[],
+    isVerified: boolean
 }
 
 export interface RegisterUser {

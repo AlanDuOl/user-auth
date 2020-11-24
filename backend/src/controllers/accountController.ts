@@ -67,7 +67,8 @@ const accountController = {
             name: data.name,
             email: data.email,
             passwordHash: hash,
-            roles: [userRole]
+            roles: [userRole],
+            isVerified: false
         }
 
         const newUser = userRepository.create(user)
