@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from "typeorm";
 import Role from './role';
-import { Verification } from "./verification";
+import { Verification } from './verification';
+import { ChangePassword } from './changePassword'
 
 @Entity()
 export default class User {
@@ -26,5 +27,8 @@ export default class User {
 
     @OneToOne(() => Verification, verification => verification.user)
     verification: Verification;
+
+    @OneToOne(() => ChangePassword, changePassword => changePassword.user)
+    changePassword: ChangePassword;
 
 }
