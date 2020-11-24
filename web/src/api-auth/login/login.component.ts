@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LoginUser } from 'src/models';
 import { AuthService } from '../auth.service';
 import { DialogService } from '../dialog.service';
@@ -22,13 +22,8 @@ export class LoginComponent implements OnInit {
       ]),
     keepLogged: new FormControl('')
   });
-
   startSubmmit = false;
-
-  requestError = {
-    message: 'Authentication failed',
-    on: false
-  }
+  message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService) { }
 
@@ -53,9 +48,11 @@ export class LoginComponent implements OnInit {
     if (this.form.valid) {
       this.startSubmmit = true;
       const user = this.getLoginData();
-      const result = await this.auth.login(user, this.form.get('keepLogged').value);
-      if (!result) {
-        this.requestError.on = true;
+      try {
+        await this.auth.login(user, this.form.get('keepLogged').value);
+      } catch (err) {
+        this.startSubmmit = false;
+        this.message$.next(err.error.message)
       }
     }
   }

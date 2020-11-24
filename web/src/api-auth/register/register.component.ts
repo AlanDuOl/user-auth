@@ -38,9 +38,7 @@ export class RegisterComponent implements OnInit {
       passwordConstraints
     ]),
   });
-
   startSubmmit = false;
-
   message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService, private router: Router) { }

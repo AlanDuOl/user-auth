@@ -66,7 +66,7 @@ export class AuthService {
     return this.http.post<AuthUser>(apiPath.login, user);
   }
 
-  login(user: LoginUser, keepLogged: boolean): Promise<boolean> {
+  login(user: LoginUser, keepLogged: boolean): Promise<void> {
     return new Promise((resolve, reject) => {
       this.authenticate(user).subscribe(
         res => {
@@ -82,10 +82,10 @@ export class AuthService {
           this.user.next({ name: res.name, roles: res.roles });
           // redirect to home page
           this.router.navigate([uiPath.home]);
-          resolve(true);
+          resolve();
         },
         err => {
-          resolve(false);
+          reject(err);
         }
       );
     });
