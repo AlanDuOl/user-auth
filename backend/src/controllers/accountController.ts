@@ -6,7 +6,7 @@ import validationService from '../services/validationService';
 import User from '../models/user';
 import Role from '../models/role';
 import { roleNames } from '../constants';
-import { RegisterUser, UserData } from '../viewmodels';
+import { RegisterUser, UserData, LoginUser } from '../viewmodels';
 
 const accountController = {
 
@@ -70,32 +70,25 @@ const accountController = {
 
     async loginAsync(req: Request, res: Response) {
 
-        const data = { ...req.body };
+        const data: LoginUser = { ...req.body };
+        // validate input data
+        await validationService.validateLoginDataAsync(data);
         
-        const schema = Yup.object().shape({
-            email: Yup.string().email().required().max(100),
-            password: Yup.string().required().min(6).max(8),
-        });
-
-        // validate form data
-        await schema.validate(data, { abortEarly: false });
+        // check if user account is verified
 
         // check if user with email exists
         const userFromDb = await userService.findByEmailAsync(data.email);
-        if (!userFromDb[0]) {
+        if (!userFromDb) {
+            // return not found if user does not exit
             return res.status(404).json({ message: "Wrong credentials" });
         }
+
         // validate password
         const isValid = await authService
-        .validatePasswordAsync(data.password, userFromDb[0].passwordHash);
+        .validatePasswordAsync(data.password, userFromDb.passwordHash);
         if (isValid) {
-            // find roles
-            const roles = await userService.findRolesAsync(userFromDb[0].id);
-            const userData = {
-                id: userFromDb[0].id,
-                name: userFromDb[0].name,
-                roles
-            }
+            // get user data and generate the authentication token
+            const userData = await userService.getUserDataAsync(userFromDb);
             const result = await authService.generateTokenAsync(userData);
             res.status(200).json(result);
         }
