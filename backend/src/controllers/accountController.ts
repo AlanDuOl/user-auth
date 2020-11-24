@@ -7,8 +7,7 @@ import { RegisterUser, LoginUser } from '../viewmodels';
 const accountController = {
 
     async getAsync(req: Request, res: Response) {
-        const authorization = req.header('Authorization');
-        const token = authorization?.split(' ')[1];
+        const token = authService.getTokenFromHeader(req.header('Authorization'));
         // if Bearer token is present, check if it is valid
         if (!!token) {
             try {
@@ -20,7 +19,7 @@ const accountController = {
             }
         }
         else {
-            res.status(401).json({});
+            res.status(401).json({ message: 'Require authentication' });
         }
     },
 

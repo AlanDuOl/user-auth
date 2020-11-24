@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
       try {
         await this.auth.login(user, this.form.get('keepLogged').value);
       } catch (err) {
+        console.log(err)
         this.startSubmmit = false;
         this.message$.next(err.error.message)
       }

@@ -3,6 +3,8 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { PayloadUser } from '../viewmodels';
+import crypto from 'crypto';
+
 
 const authService = {
     
@@ -49,6 +51,11 @@ const authService = {
                 reject(err);
             }
         });
+    },
+
+    getTokenFromHeader(authorization: string | undefined): string | undefined {
+        const token = authorization?.split(' ')[1];
+        return token;
     }
 }
 
