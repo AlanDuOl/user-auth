@@ -9,13 +9,17 @@ interface InputValidationError {
 const requestErrorHandler: ErrorRequestHandler = (error, request, response, next) => {
     if (error instanceof ValidationError) {
         let errors: InputValidationError = {};
+        try {
+            error.inner.forEach(err => {
+                errors[err.path] = err.errors;
+            });
+        } catch (error) {
+            console.error('error on error')
+        }
 
-        error.inner.forEach(err => {
-            errors[err.path] = err.errors;
-        });
         return response.status(400).json({ message: 'Validation error', errors });
     }
-    if (error instanceof jwt.JsonWebTokenError) {
+    else if (error instanceof jwt.JsonWebTokenError) {
         return response.status(401).json({ message: 'Unauthorized' });
     }
     return response.status(500).json({ message: 'Internal server error', error });

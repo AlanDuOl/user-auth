@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import User from '../models/user';
 import authService from '../services/authService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
@@ -8,22 +9,33 @@ import { RegisterUser, LoginUser } from '../viewmodels';
 const accountController = {
 
     async getAsync(req: Request, res: Response) {
-        const val = verificationService.generateActivationToken();
-        console.log('token', val.length);
-        const token = authService.getTokenFromHeader(req.header('Authorization'));
-        // if Bearer token is present, check if it is valid
-        if (!!token) {
-            try {
-                await authService.validateTokenAsync(token);
-                res.status(200).json({ message: 'Request complete' });
-            }
-            catch (err) {
-                res.status(401).json({ message: err.message });
-            }
+        
+        // generate verification token
+        const token = verificationService.generateActivationToken();
+        const user = await userService.findByEmailAsync('alan@gmail.com');
+        if (!!user) {
+            // store the token in database
+            await verificationService.storeActivationHashAsync(token, user);
+            // send email
+            await verificationService
+            .sendVerificationEmailAsync('alanduartevil@gmail.com', token, req.hostname);
+            res.status(200).json({ message: 'Email sent?' });
         }
-        else {
-            res.status(401).json({ message: 'Require authentication' });
-        }
+        res.status(404).json({ message: 'User not found' });
+        // const token = authService.getTokenFromHeader(req.header('Authorization'));
+        // // if Bearer token is present, check if it is valid
+        // if (!!token) {
+        //     try {
+        //         await authService.validateTokenAsync(token);
+        //         res.status(200).json({ message: 'Request complete' });
+        //     }
+        //     catch (err) {
+        //         res.status(401).json({ message: err.message });
+        //     }
+        // }
+        // else {
+        //     res.status(401).json({ message: 'Require authentication' });
+        // }
     },
 
     async registerAsync(req: Request, res: Response) {
@@ -50,13 +62,10 @@ const accountController = {
 
         // create activation token
         const activationToken = verificationService.generateActivationToken();
-        if (!activationToken) {
-            // if token creation failed, return error response
-            return res.status(500).json({ messsage: 'Internal server error' });
-        }
         // save token hash to the database
         await verificationService.storeActivationHashAsync(activationToken, newUser);
         // send verification email
+        await verificationService.sendVerificationEmailAsync(newUser.email, activationToken, req.hostname);
         
         // return success response
         return res.status(201).json({ message: 'User created successfully'});
