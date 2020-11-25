@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToOne } from "typeorm";
 import Role from './role';
-import { Verification } from './verification';
+import Verification from './verification';
 import { ChangePassword } from './changePassword'
 
 @Entity()

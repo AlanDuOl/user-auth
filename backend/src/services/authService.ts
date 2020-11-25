@@ -4,10 +4,13 @@ import fs from 'fs';
 import path from 'path';
 import { PayloadUser } from '../viewmodels';
 import crypto from 'crypto';
+import { getRepository } from 'typeorm';
+import Verification from '../models/verification'
+import User from '../models/user';
 
 
 const authService = {
-    
+
     hashPasswordAsync: async (password: string) => {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -56,6 +59,33 @@ const authService = {
     getTokenFromHeader(authorization: string | undefined): string | undefined {
         const token = authorization?.split(' ')[1];
         return token;
+    },
+
+    generateValidationToken(): string {
+        try {
+            const token = crypto.randomBytes(16).toString('hex');
+            return token;
+        } catch (error) {
+            return '';
+        }
+    },
+
+    generateValidationHash(token: string): string {
+        const hash = crypto.createHash('sha256');
+        hash.update(token);
+        return hash.digest('hex');;
+    },
+
+    async storeValidationHashAsync(token: string, user: User): Promise<void> {
+        const repository = getRepository(Verification)
+        const hash = this.generateValidationHash(token);
+        const verification: Verification = {
+            token: hash,
+            expiresAt: new Date(Date.now() + 60 * 1),
+            user
+        }
+        const userVerification = repository.create(verification);
+        await repository.save(userVerification);
     }
 }
 

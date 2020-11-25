@@ -3,7 +3,7 @@ import User from "./user";
 
 
 @Entity()
-export class Verification {
+export default class Verification {
 
     @PrimaryColumn()
     token: string;

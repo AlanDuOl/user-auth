@@ -32,7 +32,7 @@ const userService = {
         return payloadUser;
     },
 
-    async createUserAsync(user: RegisterUser): Promise<void> {
+    async createUserAsync(user: RegisterUser): Promise<User> {
         const userRepository = getRepository(User);
         // create a password hash
         const hash = await authService.hashPasswordAsync(user.password);
@@ -51,6 +51,7 @@ const userService = {
         // create user and save it to the database
         const newUser = userRepository.create(userData)
         await userRepository.save(newUser);
+        return newUser;
     },
 
     async isVerified(email: string): Promise<boolean> {

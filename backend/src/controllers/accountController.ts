@@ -7,6 +7,8 @@ import { RegisterUser, LoginUser } from '../viewmodels';
 const accountController = {
 
     async getAsync(req: Request, res: Response) {
+        const val = authService.generateValidationToken();
+        console.log('token', val.length);
         const token = authService.getTokenFromHeader(req.header('Authorization'));
         // if Bearer token is present, check if it is valid
         if (!!token) {
@@ -43,7 +45,17 @@ const accountController = {
         }
 
         // create new user
-        await userService.createUserAsync(data);
+        const newUser = await userService.createUserAsync(data);
+
+        // create validation token
+        const validationToken = authService.generateValidationToken();
+        if (!validationToken) {
+            // if token creation failed, return error response
+            return res.status(500).json({ messsage: 'Internal server error' });
+        }
+        // save token hash to the database
+        await authService.storeValidationHashAsync(validationToken, newUser);
+        // send validation email
         
         // return success response
         return res.status(201).json({ message: 'User created successfully'});
