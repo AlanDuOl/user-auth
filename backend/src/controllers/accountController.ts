@@ -2,12 +2,13 @@ import { Request, Response } from 'express';
 import authService from '../services/authService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
+import verificationService from '../services/verificationService';
 import { RegisterUser, LoginUser } from '../viewmodels';
 
 const accountController = {
 
     async getAsync(req: Request, res: Response) {
-        const val = authService.generateValidationToken();
+        const val = verificationService.generateActivationToken();
         console.log('token', val.length);
         const token = authService.getTokenFromHeader(req.header('Authorization'));
         // if Bearer token is present, check if it is valid
@@ -47,15 +48,15 @@ const accountController = {
         // create new user
         const newUser = await userService.createUserAsync(data);
 
-        // create validation token
-        const validationToken = authService.generateValidationToken();
-        if (!validationToken) {
+        // create activation token
+        const activationToken = verificationService.generateActivationToken();
+        if (!activationToken) {
             // if token creation failed, return error response
             return res.status(500).json({ messsage: 'Internal server error' });
         }
         // save token hash to the database
-        await authService.storeValidationHashAsync(validationToken, newUser);
-        // send validation email
+        await verificationService.storeActivationHashAsync(activationToken, newUser);
+        // send verification email
         
         // return success response
         return res.status(201).json({ message: 'User created successfully'});
