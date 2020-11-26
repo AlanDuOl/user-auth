@@ -114,4 +114,8 @@ export class AuthService {
   sendVerification(token: string): Observable<any> {
     return this.http.get<any>(`${apiPath.verify}/${token}`);
   }
+
+  requestVerificationEmail(userId: number): Observable<any> {
+    return this.http.get<any>(`${apiPath.sendemail}/${userId}`);
+  }
 }

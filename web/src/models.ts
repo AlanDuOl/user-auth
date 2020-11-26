@@ -19,3 +19,15 @@ export interface AuthUser {
     exp: number,
     roles: string[]
 }
+
+export interface ResponseFeedback {
+    message: string,
+    id?: number,
+    type: FeedBackType
+}
+
+export enum FeedBackType {
+    error,
+    success,
+    warning
+}

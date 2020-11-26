@@ -5,6 +5,7 @@ export const apiPath = {
     login: `${baseApiPath}/login`,
     register: `${baseApiPath}/register`,
     verify: `${baseApiPath}/verify`,
+    sendemail: `${baseApiPath}/sendemail`,
     get: baseApiPath,
 }
 

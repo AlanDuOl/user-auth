@@ -55,9 +55,9 @@ const userService = {
         return newUser;
     },
 
-    async getByIdAsync(userId: number): Promise<User | undefined> {
+    async getByIdAsync(userId: number): Promise<User> {
         const repository = getRepository(User);
-        const user = await repository.findOne(userId);
+        const user = await repository.findOneOrFail(userId);
         return user;
     },
 

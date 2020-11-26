@@ -4,6 +4,7 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { LoginUser } from 'src/models';
 import { AuthService } from '../auth.service';
 import { DialogService } from '../dialog.service';
+import { ResponseFeedback, FeedBackType } from '../../models';
 
 @Component({
   selector: 'app-login',
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
     keepLogged: new FormControl('')
   });
   startSubmmit = false;
-  message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
+  response: BehaviorSubject<ResponseFeedback | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService) { }
 
@@ -51,9 +52,12 @@ export class LoginComponent implements OnInit {
       try {
         await this.auth.login(user, this.form.get('keepLogged').value);
       } catch (err) {
-        console.log(err)
         this.startSubmmit = false;
-        this.message$.next(err.error.message)
+        this.response.next({ 
+          message: err.error.message,
+          id: err.error.id ? err.error.id : null,
+          type: FeedBackType.error
+        });
       }
     }
   }
@@ -64,6 +68,27 @@ export class LoginComponent implements OnInit {
       password: this.form.get('password').value,
     }
     return user;
+  }
+
+  requestVerificationEmail(userId: number): void {
+    if (!!userId) {
+      this.auth.requestVerificationEmail(userId).subscribe(
+        res => {
+          this.response.next({
+            message: res.message,
+            id: undefined,
+            type: FeedBackType.success
+          });
+        },
+        err => {
+          this.response.next({
+            message: err.error.message,
+            id: undefined,
+            type: FeedBackType.error
+          });
+        }
+      )
+    }
   }
 
 }

@@ -61,7 +61,34 @@
     margin-top: 5px;
 }
 
-#error {
+#error-container {
+    display: flex;
+    flex-direction: column;
+}
+
+// error
+#msg-0 {
     text-align: center;
     color: rgba(255, 0, 0, 0.8);
+}
+
+// success
+#msg-1 {
+    text-align: center;
+    color: rgba(0, 255, 0, 0.8);
+}
+
+// warning
+#msg-2 {
+    text-align: center;
+    color: rgba(255, 255, 0, 0.8);
+}
+
+#validation-btn {
+    width: fit-content;
+    margin: auto;
+
+    border-radius: 5px;
+    border-color: white;
+    border-width: 0;
 }

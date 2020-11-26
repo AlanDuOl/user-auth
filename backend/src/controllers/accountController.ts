@@ -88,7 +88,7 @@ const accountController = {
 
         // check if user account is verified
         if (!userFromDb.isVerified) {
-            return res.status(400).json({ message: "Account not verified" });
+            return res.status(400).json({ message: "Account not verified", id: userFromDb.id });
         }
 
         // validate password
@@ -100,19 +100,28 @@ const accountController = {
             const result = await authService.generateTokenAsync(payloadUser);
             res.status(200).json(result);
         }
-        else {
-            res.status(400).json({ message: 'Authentication failed' });
-        }
+        res.status(400).json({ message: 'Wrong credentials' });
 
     },
 
-    async verifyAsync(req: Request, res: Response) {
+    async verifyAsync(req: Request, res: Response): Promise<Response> {
         const { token } = req.params;
         const result = await verificationService.verifyAccount(token);
         if (result) {
             return res.status(200).json({ message: 'Account validated' });
         }
         return res.status(400).json({ message: 'Unable to validate account' });
+    },
+
+    async sendEmailAsync(req: Request, res: Response): Promise<Response> {
+        // get userId from params
+        const { id } = req.params;
+        // generate a new token and store the hash in database
+        const token = verificationService.generateActivationToken();
+        const user = await userService.getByIdAsync(+id);
+        await verificationService.storeActivationHashAsync(token, user);
+        await verificationService.sendVerificationEmailAsync(user.email, token, req.hostname);
+        return res.status(200).json({ message: 'Email sent successfully' });
     }
 
 }

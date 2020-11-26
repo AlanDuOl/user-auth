@@ -1,6 +1,11 @@
 <section class="app-login">
     <h3>Login</h3>
-    <p id="error" *ngIf="message$ | async">{{message$ | async}}</p>
+    <div id="error-container" *ngIf="response | async as res">
+        <p id="msg-{{res.type}}">{{res.message}}</p>
+        <button id="validation-btn" *ngIf="res.id" (click)="requestVerificationEmail(res.id)">
+            Send validation email
+        </button>
+    </div>
     <form class="form-login" novalidate [formGroup]="form" (ngSubmit)="handleSubmit()">
         <label class="text-input">
             Email
