@@ -87,8 +87,7 @@ const accountController = {
         }
 
         // check if user account is verified
-        const isVerified = await userService.isVerified(data.email);
-        if (!isVerified) {
+        if (!userFromDb.isVerified) {
             return res.status(400).json({ message: "Account not verified" });
         }
 

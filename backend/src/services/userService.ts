@@ -54,15 +54,6 @@ const userService = {
         return newUser;
     },
 
-    async isVerified(email: string): Promise<boolean> {
-        const userRepository = getRepository(User);
-        const user = await userRepository.findOne({ email });
-        if (!!user) {
-            return user.isVerified;
-        }
-        return false;
-    },
-
     async getByIdAsync(userId: number): Promise<User | undefined> {
         const repository = getRepository(User);
         const user = await repository.findOne(userId);
