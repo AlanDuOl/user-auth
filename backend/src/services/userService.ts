@@ -1,11 +1,13 @@
-import { getRepository, getCustomRepository } from 'typeorm';
+import { getRepository } from 'typeorm';
 import { roleNames } from '../constants';
 import Role from '../models/role';
 import User from '../models/user';
 import { PayloadUser, RegisterUser, NewUser } from '../viewmodels';
 import authService from './authService';
+import roleService from './roleService';
 
 const userService = {
+
     async findByEmailAsync(email: string): Promise<User | undefined> {
         const userRepository = getRepository(User);
         const user = await userRepository.findOne({ email })
@@ -15,7 +17,7 @@ const userService = {
     async findRolesAsync(id: number): Promise<string[]> {
         const userRepository = getRepository(User);
         const user = await userRepository.find({ 
-            relations: ['role'],
+            relations: ['roles'],
             where: { id }
         })
         const roles = user[0].roles.map(role => role.name);
@@ -38,8 +40,7 @@ const userService = {
         const hash = await authService.hashPasswordAsync(user.password);
 
         // Add roles
-        const userRole = new Role();
-        userRole.name = roleNames.user;
+        const userRole = await roleService.getRoleByNameAsync(roleNames.user);
 
         const userData: NewUser = {
             name: user.name,
@@ -64,6 +65,7 @@ const userService = {
         const repository = getRepository(User);
         await repository.update(userId, { isVerified: true });
     }
+
 }
 
 export default userService;
