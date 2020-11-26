@@ -9,6 +9,7 @@ const roleService = {
         const role = await repository.findOneOrFail({ name: roleName });
         return role;
     }
+    
 }
 
 export default roleService;
