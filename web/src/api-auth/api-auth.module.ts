@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ApiAuthRoutingModule } from './api-auth-routing.module';
+import { PageLoaderModule } from '../app/page-loader/page-loader.module';
 import { LoginComponent } from './login/login.component';
 import { LogoutComponent } from './logout/logout.component';
 import { RegisterComponent } from './register/register.component';
@@ -23,6 +24,7 @@ import { VerifyComponent } from './verify/verify.component';
   ],
   imports: [
     CommonModule,
+    PageLoaderModule,
     ReactiveFormsModule,
     ApiAuthRoutingModule
   ],

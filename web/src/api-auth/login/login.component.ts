@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
     keepLogged: new FormControl('')
   });
   startSubmmit = false;
+  pageLoading = false;
   response: BehaviorSubject<ResponseFeedback | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService) { }
@@ -50,14 +51,20 @@ export class LoginComponent implements OnInit {
       this.startSubmmit = true;
       const user = this.getLoginData();
       try {
+        // put loader while async operation is running
+        this.pageLoading = true;
         await this.auth.login(user, this.form.get('keepLogged').value);
+        // remove loader when asycn operation is finished
+        this.pageLoading = false;
       } catch (err) {
         this.startSubmmit = false;
         this.response.next({ 
           message: err.error.message,
           id: err.error.id ? err.error.id : null,
-          type: FeedBackType.error
+          type: FeedBackType.error,
         });
+        // remove loader when asycn operation is finished
+        this.pageLoading = false;
       }
     }
   }
@@ -72,20 +79,26 @@ export class LoginComponent implements OnInit {
 
   requestVerificationEmail(userId: number): void {
     if (!!userId) {
+      // put loader while async operation is running
+      this.pageLoading = true;
       this.auth.requestVerificationEmail(userId).subscribe(
         res => {
           this.response.next({
             message: res.message,
             id: undefined,
-            type: FeedBackType.success
+            type: FeedBackType.success,
           });
+          // remove loader when asycn operation is finished
+          this.pageLoading = false;
         },
         err => {
           this.response.next({
             message: err.error.message,
             id: undefined,
-            type: FeedBackType.error
+            type: FeedBackType.error,
           });
+          // remove loader when asycn operation is finished
+          this.pageLoading = false;
         }
       )
     }

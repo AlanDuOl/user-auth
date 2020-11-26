@@ -23,7 +23,7 @@ export interface AuthUser {
 export interface ResponseFeedback {
     message: string,
     id?: number,
-    type: FeedBackType
+    type: FeedBackType,
 }
 
 export enum FeedBackType {

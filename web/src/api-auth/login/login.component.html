@@ -1,4 +1,4 @@
-<section class="app-login">
+<section class="app-login" *ngIf="!pageLoading; else loader">
     <h3>Login</h3>
     <div id="error-container" *ngIf="response | async as res">
         <p id="msg-{{res.type}}">{{res.message}}</p>
@@ -28,3 +28,6 @@
         <button type="submit">Login</button>
     </form>
 </section>
+<ng-template #loader>
+    <app-page-loader></app-page-loader>
+</ng-template>
