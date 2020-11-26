@@ -9,37 +9,35 @@ import { RegisterUser, LoginUser } from '../viewmodels';
 const accountController = {
 
     async getAsync(req: Request, res: Response) {
-        
         // generate verification token
-        const token = verificationService.generateActivationToken();
-        const user = await userService.findByEmailAsync('alan@gmail.com');
-        if (!!user) {
-            // store the token in database
-            await verificationService.storeActivationHashAsync(token, user);
-            // send email
-            await verificationService
-            .sendVerificationEmailAsync('alanduartevil@gmail.com', token, req.hostname);
-            res.status(200).json({ message: 'Email sent?' });
+        // const token = verificationService.generateActivationToken();
+        // const user = await userService.findByEmailAsync('alan@gmail.com');
+        // if (!!user) {
+        //     // store the token in database
+        //     await verificationService.storeActivationHashAsync(token, user);
+        //     // send email
+        //     await verificationService
+        //     .sendVerificationEmailAsync('alanduartevil@gmail.com', token, req.hostname);
+        //     res.status(200).json({ message: 'Email sent?' });
+        // }
+        // res.status(404).json({ message: 'User not found' });
+        const token = authService.getTokenFromHeader(req.header('Authorization'));
+        // if Bearer token is present, check if it is valid
+        if (!!token) {
+            try {
+                await authService.validateTokenAsync(token);
+                res.status(200).json({ message: 'Request complete' });
+            }
+            catch (err) {
+                res.status(401).json({ message: err.message });
+            }
         }
-        res.status(404).json({ message: 'User not found' });
-        // const token = authService.getTokenFromHeader(req.header('Authorization'));
-        // // if Bearer token is present, check if it is valid
-        // if (!!token) {
-        //     try {
-        //         await authService.validateTokenAsync(token);
-        //         res.status(200).json({ message: 'Request complete' });
-        //     }
-        //     catch (err) {
-        //         res.status(401).json({ message: err.message });
-        //     }
-        // }
-        // else {
-        //     res.status(401).json({ message: 'Require authentication' });
-        // }
+        else {
+            res.status(401).json({ message: 'Require authentication' });
+        }
     },
 
     async registerAsync(req: Request, res: Response) {
-
         // grab data from request
         const data: RegisterUser = { ...req.body };
 
@@ -69,7 +67,6 @@ const accountController = {
         
         // return success response
         return res.status(201).json({ message: 'User created successfully'});
-
     },
 
     async loginAsync(req: Request, res: Response) {
@@ -98,10 +95,9 @@ const accountController = {
             // get user data and generate the authentication token
             const payloadUser = await userService.getPayloadUserAsync(userFromDb);
             const userWithToken = await authService.generateTokenAsync(payloadUser);
-            res.status(200).json(userWithToken);
+            return res.status(200).json(userWithToken);
         }
-        res.status(400).json({ message: 'Wrong credentials' });
-
+        return res.status(400).json({ message: 'Wrong credentials' });
     },
 
     async verifyAsync(req: Request, res: Response): Promise<Response> {
