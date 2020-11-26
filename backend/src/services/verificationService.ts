@@ -92,6 +92,7 @@ const verificationService = {
         }
         return false;
     }
+    
 }
 
 export default verificationService;
