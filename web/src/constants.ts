@@ -4,6 +4,7 @@ const baseApiPath = 'http://localhost:2000';
 export const apiPath = {
     login: `${baseApiPath}/login`,
     register: `${baseApiPath}/register`,
+    verify: `${baseApiPath}/verify`,
     get: baseApiPath,
 }
 

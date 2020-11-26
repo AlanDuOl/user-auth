@@ -8,6 +8,7 @@ import { RegisterComponent } from './register/register.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthMenuComponent } from './auth-menu/auth-menu.component';
 import { ValidationErrorComponent } from '../app/validation-error/validation-error.component';
+import { VerifyComponent } from './verify/verify.component';
 
 
 @NgModule({
@@ -17,7 +18,8 @@ import { ValidationErrorComponent } from '../app/validation-error/validation-err
     RegisterComponent,
     ResetPasswordComponent,
     ValidationErrorComponent,
-    AuthMenuComponent
+    AuthMenuComponent,
+    VerifyComponent
   ],
   imports: [
     CommonModule,

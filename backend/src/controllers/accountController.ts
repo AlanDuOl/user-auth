@@ -107,7 +107,14 @@ const accountController = {
 
     },
 
-    async validateAsync() {}
+    async verifyAsync(req: Request, res: Response) {
+        const { token } = req.params;
+        const result = await verificationService.verifyAccount(token);
+        if (result) {
+            return res.status(200).json({ message: 'Account validated' });
+        }
+        return res.status(400).json({ message: 'Unable to validate account' });
+    }
 
 }
 

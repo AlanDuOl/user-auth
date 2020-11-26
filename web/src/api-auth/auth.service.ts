@@ -110,4 +110,8 @@ export class AuthService {
   register(data: User): Observable<any> {
     return this.http.post<any>(apiPath.register, data);
   }
+
+  sendVerification(token: string): Observable<any> {
+    return this.http.get<any>(`${apiPath.verify}/${token}`);
+  }
 }

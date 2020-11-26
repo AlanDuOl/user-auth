@@ -15,7 +15,7 @@ const userService = {
     async findRolesAsync(id: number): Promise<string[]> {
         const userRepository = getRepository(User);
         const user = await userRepository.find({ 
-            relations: ['roles'],
+            relations: ['role'],
             where: { id }
         })
         const roles = user[0].roles.map(role => role.name);
@@ -61,6 +61,17 @@ const userService = {
             return user.isVerified;
         }
         return false;
+    },
+
+    async getByIdAsync(userId: number): Promise<User | undefined> {
+        const repository = getRepository(User);
+        const user = await repository.findOne(userId);
+        return user;
+    },
+
+    async activateAsync(userId: number): Promise<void> {
+        const repository = getRepository(User);
+        await repository.update(userId, { isVerified: true });
     }
 }
 

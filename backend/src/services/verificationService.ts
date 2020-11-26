@@ -1,7 +1,8 @@
 import crypto from 'crypto';
 import nodemailer from 'nodemailer';
 import { getRepository } from 'typeorm';
-import Verification from '../models/verification'
+import Verification from '../models/verification';
+import userService from './userService';
 import User from '../models/user';
 import Mail from 'nodemailer/lib/mailer';
 
@@ -30,7 +31,7 @@ const verificationService = {
         const verification: Verification = {
             token: hash,
             // wrong date. Date.now is returning Europe timezone
-            expiresAt: new Date(),
+            expiresAt: new Date(Date.now() + 3600000 * 2),
             user
         }
         const userVerification = repository.create(verification);
@@ -47,7 +48,7 @@ const verificationService = {
 
     async sendVerificationEmailAsync(email: string, token: string, host: string): Promise<void> {
         const smtpTransporter = await this.getSMTPTransporter();
-        const link = `http://${host}/verify?id=${token}`;
+        const link = `http://${host}:4200/verify?token=${token}`;
         const mailOptions = {
             from: 'from_auth-user@mail.com',
             to: email,
@@ -70,6 +71,26 @@ const verificationService = {
         });
         await transporter.verify();
         return transporter;
+    },
+
+    async verifyAccount(token: string): Promise<boolean> {
+        const repository = getRepository(Verification);
+        // create a hash with the token0,
+        const hash = this.generateActivationHash(token);
+        // look for the hash in the database
+        const verification = await repository.findOne({ token: hash }, { relations: ['user'] });
+        // if verification entity is found, check if it has not expired
+        if (!!verification) {
+            // if verification has not expired, set user.isVerified to true and delete the
+            // verification entity
+            const tokenDate = Date.parse(verification.expiresAt.toUTCString());
+            if (tokenDate > Date.now()) {
+                await userService.activateAsync(verification.user.id);
+                await repository.delete(verification.token);
+                return true;
+            }
+        }
+        return false;
     }
 }
 

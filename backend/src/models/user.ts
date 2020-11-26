@@ -25,10 +25,10 @@ export default class User {
     @JoinTable({ name: 'userRoles' })
     roles: Role[];
 
-    @OneToOne(() => Verification, verification => verification.user)
+    @OneToOne(() => Verification, verification => verification.user, { cascade: true })
     verification: Verification;
 
-    @OneToOne(() => ChangePassword, changePassword => changePassword.user)
+    @OneToOne(() => ChangePassword, changePassword => changePassword.user, { cascade: true })
     changePassword: ChangePassword;
 
 }

@@ -4,11 +4,13 @@ import { LoginComponent } from '../api-auth/login/login.component';
 import { LogoutComponent } from '../api-auth/logout/logout.component';
 import { RegisterComponent } from '../api-auth/register/register.component';
 import { ResetPasswordComponent } from '../api-auth/reset-password/reset-password.component';
+import { VerifyComponent } from '../api-auth/verify/verify.component';
 import { CanDeactivateGuard } from './can-deactivate.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent, canDeactivate: [CanDeactivateGuard] },
   { path: 'logout', component: LogoutComponent },
+  { path: 'verify', component: VerifyComponent },
   { path: 'register', component: RegisterComponent, canDeactivate: [CanDeactivateGuard] },
   { path: 'changePassword', component: ResetPasswordComponent },
 ];
