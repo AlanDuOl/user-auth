@@ -14,10 +14,7 @@ const authService = {
     },
 
     validatePasswordAsync: async (password: string, hash: string) => {
-        return await bcrypt.compare(password, hash)
-            .catch(err => {
-                console.log('Error validating password', err);
-            });
+        return await bcrypt.compare(password, hash);
     },
 
     generateTokenAsync: async (user: PayloadUser) => {
