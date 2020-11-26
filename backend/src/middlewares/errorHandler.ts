@@ -13,11 +13,10 @@ const requestErrorHandler: ErrorRequestHandler = (error, request, response, next
             error.inner.forEach(err => {
                 errors[err.path] = err.errors;
             });
+            return response.status(400).json({ message: 'Validation error', errors });
         } catch (error) {
-            console.error('error on error')
+            return response.status(400).json({ message: 'Validation error' });
         }
-
-        return response.status(400).json({ message: 'Validation error', errors });
     }
     else if (error instanceof jwt.JsonWebTokenError) {
         return response.status(401).json({ message: 'Unauthorized' });

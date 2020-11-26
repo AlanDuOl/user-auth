@@ -17,7 +17,7 @@ const validationService = {
         await schema.validate(data, { abortEarly: false });
     },
 
-    async validateLoginDataAsync(data: LoginUser) {
+    async validateLoginDataAsync(data: LoginUser): Promise<void> {
         // define structure of object to be validated
         const schema = Yup.object().shape({
             email: Yup.string().email().required().max(100),

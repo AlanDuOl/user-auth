@@ -7,17 +7,17 @@ import { PayloadUser } from '../viewmodels';
 
 const authService = {
 
-    hashPasswordAsync: async (password: string) => {
+    async hashPasswordAsync(password: string): Promise<string> {
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
         return hash;
     },
 
-    validatePasswordAsync: async (password: string, hash: string) => {
+    async validatePasswordAsync(password: string, hash: string): Promise<boolean> {
         return await bcrypt.compare(password, hash);
     },
 
-    generateTokenAsync: async (user: PayloadUser) => {
+    async generateTokenAsync(user: PayloadUser): Promise<any> {
         const payload = {
             id: user.id,
             name: user.name,
@@ -36,7 +36,7 @@ const authService = {
         });
     },
 
-    validateTokenAsync: async (token: string) => {
+    async validateTokenAsync(token: string): Promise<any> {
         return new Promise((resolve, reject) => {
             try {
                 const publicKey = fs.readFileSync(path.resolve(__dirname, '..', '..', 'public.key'));
