@@ -3,7 +3,7 @@
     <div id="error-container" *ngIf="response | async as res">
         <p id="msg-{{res.type}}">{{res.message}}</p>
         <button id="validation-btn" *ngIf="res.id" (click)="requestVerificationEmail(res.id)">
-            Send validation email
+            Send verification email
         </button>
     </div>
     <form class="form-login" novalidate [formGroup]="form" (ngSubmit)="handleSubmit()">

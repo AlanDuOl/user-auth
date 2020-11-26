@@ -97,8 +97,8 @@ const accountController = {
         if (isValid) {
             // get user data and generate the authentication token
             const payloadUser = await userService.getPayloadUserAsync(userFromDb);
-            const result = await authService.generateTokenAsync(payloadUser);
-            res.status(200).json(result);
+            const userWithToken = await authService.generateTokenAsync(payloadUser);
+            res.status(200).json(userWithToken);
         }
         res.status(400).json({ message: 'Wrong credentials' });
 
@@ -108,7 +108,7 @@ const accountController = {
         const { token } = req.params;
         const result = await verificationService.verifyAccount(token);
         if (result) {
-            return res.status(200).json({ message: 'Account validated' });
+            return res.status(200).json({ message: 'Account verified' });
         }
         return res.status(400).json({ message: 'Unable to validate account' });
     },
