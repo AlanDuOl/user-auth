@@ -39,6 +39,7 @@ export class RegisterComponent implements OnInit {
     ]),
   });
   startSubmmit = false;
+  pageLoading = false;
   message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService, private router: Router) { }
@@ -69,9 +70,13 @@ export class RegisterComponent implements OnInit {
       if (this.passwordsEqual()) {
         // get form data in correct format
         const user = this.getRegisterData();
+        // set page loader to wait async operation
+        this.pageLoading = true;
         // submit new user data
         this.auth.register(user).subscribe(
           () => {
+            // remove page loader after async operation
+            this.pageLoading = false;
             // navigate to login on successful registration
             this.router.navigate([uiPath.login]);
           },
@@ -80,6 +85,8 @@ export class RegisterComponent implements OnInit {
             this.startSubmmit = false;
             // set error message on request error
             !!err.error ? this.message$.next(err.error.message) : this.message$.next(null);
+            // remove page loader after async operation
+            this.pageLoading = false;
           }
         );
       }

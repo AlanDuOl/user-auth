@@ -1,4 +1,4 @@
-<section class="auth-register">
+<section class="auth-register" *ngIf="!pageLoading;else loader">
     <h3>Register</h3>
     <p id="error" *ngIf="message$ | async">{{message$ | async}}</p>
     <form class="form-register" novalidate [formGroup]="form" (ngSubmit)="handleSubmit()">
@@ -29,3 +29,6 @@
         <button type="submit">Register</button>
     </form>
 </section>
+<ng-template #loader>
+    <app-page-loader></app-page-loader>
+</ng-template>
