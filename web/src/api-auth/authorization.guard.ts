@@ -24,7 +24,7 @@ export class AuthorizationGuard implements CanActivate {
       console.log('isAuthorized');
     }
     else {
-      console.log('no Authorized');
+      console.log('not Authorized');
     }
   }
   
