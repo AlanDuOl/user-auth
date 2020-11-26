@@ -75,16 +75,16 @@ const verificationService = {
 
     async verifyAccount(token: string): Promise<boolean> {
         const repository = getRepository(Verification);
-        // create a hash with the token0,
+        // create a hash with the token
         const hash = this.generateActivationHash(token);
         // look for the hash in the database
         const verification = await repository.findOne({ token: hash }, { relations: ['user'] });
         // if verification entity is found, check if it has not expired
         if (!!verification) {
-            // if verification has not expired, set user.isVerified to true and delete the
-            // verification entity
             const tokenDate = Date.parse(verification.expiresAt.toUTCString());
             if (tokenDate > Date.now()) {
+                // if verification has not expired, activate user account and delete the
+                // verification entity
                 await userService.activateAsync(verification.user.id);
                 await repository.delete(verification.token);
                 return true;
