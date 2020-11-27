@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { RegisterFeedbackComponent } from '../../bootstrap/register-feedback/register-feedback.component';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../../models';
 import { DialogService } from '../dialog.service';
@@ -42,7 +44,8 @@ export class RegisterComponent implements OnInit {
   pageLoading = false;
   message$: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
-  constructor(private auth: AuthService, private dialog: DialogService, private router: Router) { }
+  constructor(private auth: AuthService, private dialog: DialogService, private router: Router,
+    private modal: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -78,9 +81,11 @@ export class RegisterComponent implements OnInit {
             // remove page loader after async operation
             this.pageLoading = false;
             // inform user about registration and verification email
-            
-            // navigate to login on successful registration
-            this.router.navigate([uiPath.login]);
+            const modalRef = this.modal.open(RegisterFeedbackComponent);
+            // navigate to login on successful registration after modal is closed or dismissed
+            modalRef.result
+              .then(() => this.router.navigate([uiPath.login]))
+              .catch(() => this.router.navigate([uiPath.login]));
           },
           err => {
             // allow canDeactivate pop-up if request failed
