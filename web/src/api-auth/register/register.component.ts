@@ -77,6 +77,8 @@ export class RegisterComponent implements OnInit {
           () => {
             // remove page loader after async operation
             this.pageLoading = false;
+            // inform user about registration and verification email
+            
             // navigate to login on successful registration
             this.router.navigate([uiPath.login]);
           },
