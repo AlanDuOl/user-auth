@@ -10,6 +10,7 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
 import { AuthMenuComponent } from './auth-menu/auth-menu.component';
 import { ValidationErrorComponent } from '../app/validation-error/validation-error.component';
 import { VerifyComponent } from './verify/verify.component';
+import { SendCodeComponent } from './send-code/send-code.component';
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import { VerifyComponent } from './verify/verify.component';
     ResetPasswordComponent,
     ValidationErrorComponent,
     AuthMenuComponent,
-    VerifyComponent
+    VerifyComponent,
+    SendCodeComponent
   ],
   imports: [
     CommonModule,

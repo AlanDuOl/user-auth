@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ResetPassword } from '../../models';
+
 
 @Component({
   selector: 'app-reset-password',
@@ -7,9 +9,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ResetPasswordComponent implements OnInit {
 
+  resetPhase: ResetPassword = ResetPassword.sendCode;
+
   constructor() { }
 
   ngOnInit(): void {
+    
   }
 
 }

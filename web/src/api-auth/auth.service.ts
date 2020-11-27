@@ -118,4 +118,6 @@ export class AuthService {
   requestVerificationEmail(userId: number): Observable<any> {
     return this.http.get<any>(`${apiPath.sendemail}/${userId}`);
   }
+
+  // requestVerificationEmail(): 
 }

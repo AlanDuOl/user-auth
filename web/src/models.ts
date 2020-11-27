@@ -31,3 +31,9 @@ export enum FeedBackType {
     success,
     warning
 }
+
+export enum ResetPassword {
+    sendCode,
+    validateCode,
+    submitForm
+}
