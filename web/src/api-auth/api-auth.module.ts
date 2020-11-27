@@ -11,6 +11,7 @@ import { AuthMenuComponent } from './auth-menu/auth-menu.component';
 import { ValidationErrorComponent } from '../app/validation-error/validation-error.component';
 import { VerifyComponent } from './verify/verify.component';
 import { SendCodeComponent } from './send-code/send-code.component';
+import { RequestCodeComponent } from './request-code/request-code.component';
 
 
 @NgModule({
@@ -22,7 +23,8 @@ import { SendCodeComponent } from './send-code/send-code.component';
     ValidationErrorComponent,
     AuthMenuComponent,
     VerifyComponent,
-    SendCodeComponent
+    SendCodeComponent,
+    RequestCodeComponent
   ],
   imports: [
     CommonModule,

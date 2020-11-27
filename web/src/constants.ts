@@ -6,12 +6,14 @@ export const apiPath = {
     register: `${baseApiPath}/register`,
     verify: `${baseApiPath}/verify`,
     sendemail: `${baseApiPath}/sendemail`,
+    requestCode: `${baseApiPath}/requestcode`,
     get: baseApiPath,
 }
 
 export const uiPath = {
-    home: '/',
-    login: '/login'
+    home: '',
+    login: 'login',
+    register: 'register'
 }
 
 export const logoutStatus = {

@@ -119,5 +119,7 @@ export class AuthService {
     return this.http.get<any>(`${apiPath.sendemail}/${userId}`);
   }
 
-  // requestVerificationEmail(): 
+  requestResetCode(email: string): Observable<any> {
+    return this.http.post<any>(`${apiPath.requestCode}`, { email });
+  }
 }

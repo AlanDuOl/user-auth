@@ -1,0 +1,10 @@
+<section>
+    <h3>Send reset code</h3>
+    <form novalidate [formGroup]="form" (ngSubmit)="sendCode()">
+        <label>
+            Your account email
+            <input type="text" [formControlName]="email" />
+        </label>
+        <button type="submit">Send</button>
+    </form>
+</section>
