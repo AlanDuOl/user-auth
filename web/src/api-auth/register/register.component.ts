@@ -84,8 +84,8 @@ export class RegisterComponent implements OnInit {
             const modalRef = this.modal.open(RegisterFeedbackComponent);
             // navigate to login on successful registration after modal is closed or dismissed
             modalRef.result
-              .then(() => this.router.navigate([uiPath.login]))
-              .catch(() => this.router.navigate([uiPath.login]));
+              .then(() => this.router.navigate([`/${uiPath.login}`]))
+              .catch(() => this.router.navigate([`/${uiPath.login}`]));
           },
           err => {
             // allow canDeactivate pop-up if request failed

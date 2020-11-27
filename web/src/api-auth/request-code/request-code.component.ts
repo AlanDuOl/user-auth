@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
+import { uiPath } from 'src/constants';
 import { AuthService } from '../auth.service';
 
 @Component({
@@ -15,7 +17,7 @@ export class RequestCodeComponent implements OnInit {
   })
   response: BehaviorSubject<string | null> = new BehaviorSubject(null);
   
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -24,7 +26,7 @@ export class RequestCodeComponent implements OnInit {
     const email = this.form.get('email').value;
     this.auth.requestResetCode(email).subscribe(
       res => {
-
+        // this.router.navigate([uiPath])
       },
       err => {
 

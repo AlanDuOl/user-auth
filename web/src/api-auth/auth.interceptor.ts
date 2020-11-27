@@ -40,10 +40,10 @@ export class AuthInterceptor implements HttpInterceptor {
         (err: HttpErrorResponse) => {
           if (err.status === 401 && err.error.message === 'jwt expired') {
             this.auth.resetUser();
-            this.router.navigate([uiPath.login]);
+            this.router.navigate([`/${uiPath.login}`]);
           }
           else if (err.status === 401) {
-            this.router.navigate([uiPath.login]);
+            this.router.navigate([`/${uiPath.login}`]);
           }
         }
       )

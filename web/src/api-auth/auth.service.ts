@@ -81,7 +81,7 @@ export class AuthService {
           // set user
           this.user.next({ name: res.name, roles: res.roles });
           // redirect to home page
-          this.router.navigate([uiPath.home]);
+          this.router.navigate([`/${uiPath.home}`]);
           resolve();
         },
         err => {

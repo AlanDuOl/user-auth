@@ -22,8 +22,7 @@ export class AuthenticationGuard implements CanActivate {
 
   handleAuthentication(isAuthenticated: boolean, state: RouterStateSnapshot): void {
     if (!isAuthenticated) {
-      console.log('not authenticated', state);
-      this.router.navigate([uiPath.login]);
+      this.router.navigate([`/${uiPath.login}`]);
     }
   }
   
