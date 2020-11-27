@@ -1,17 +1,27 @@
 
 .modal-container {
-    background-color: cornflowerblue;
+    border-radius: 10px;
 }
 
 .modal-header {
-    color: blue;
-    text-align: center;
+    background-color: rgba(245, 245, 245, 0.9);
 }
 
-.success {
-    color: green;
+.modal-body {
+    background-color: cadetblue;
+}
+
+.modal-footer {
+    background-color: rgba(245, 245, 245, 0.9);
+}
+
+.modal-title {
+    color: rgba(18, 122, 18, 0.8);
+    margin: auto;
 }
 
 .warning {
-    color: yellow;
+    color: rgba(255, 255, 0, 0.9);
+    text-align: center;
+    font-weight: 500;
 }

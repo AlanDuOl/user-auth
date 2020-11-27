@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiPath } from '../../constants';
 
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterFeedbackComponent } from '../../bootstrap/register-feedback/register-feedback.component';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,7 +12,7 @@ import { apiPath } from '../../constants';
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private modal: NgbModal) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +22,10 @@ export class HomeComponent implements OnInit {
       res => console.log(res),
       err => console.log(err),
     )
+  }
+
+  openModal() {
+    const modalRef = this.modal.open(RegisterFeedbackComponent);
   }
 
 }
