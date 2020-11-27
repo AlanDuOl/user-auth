@@ -13,9 +13,11 @@ export const apiPath = {
 export const uiPath = {
     home: '',
     login: 'login',
+    logout: 'logout',
+    verify: 'verify',
     register: 'register',
     requestCode: 'requestcode',
-    sendCode: 'sendCode',
+    sendCode: 'sendcode',
     resetPassword: 'resetpassword'
 }
 
