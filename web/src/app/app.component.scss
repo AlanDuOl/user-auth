@@ -1,5 +1,7 @@
 
 .container {
-    width: 100%;
-    padding-top: 4rem;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 4rem;
+    position: relative;
 }
