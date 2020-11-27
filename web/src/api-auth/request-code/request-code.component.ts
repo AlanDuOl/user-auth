@@ -15,23 +15,25 @@ export class RequestCodeComponent implements OnInit {
   form = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required])
   })
-  response: BehaviorSubject<string | null> = new BehaviorSubject(null);
-  
+  message: BehaviorSubject<string | null> = new BehaviorSubject(null);
+
   constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
   requestCode() {
-    const email = this.form.get('email').value;
-    this.auth.requestResetCode(email).subscribe(
-      res => {
-        // this.router.navigate([uiPath])
-      },
-      err => {
-
-      }
-    );
+    // if form data is valid, request reset code
+    if (this.form.valid) {
+      const email = this.form.get('email').value;
+      this.auth.requestResetCode(email).subscribe(
+        () => {
+          this.router.navigate([`/${uiPath.sendCode}`]);
+        },
+        err => {
+          this.message.next(err.error.message);
+        }
+      );
+    }
   }
-
 }
