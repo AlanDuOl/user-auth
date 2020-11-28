@@ -9,22 +9,7 @@ import Mail from 'nodemailer/lib/mailer';
 
 const verificationService = {
 
-    async generateResetCodeAsync(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            try {
-                const code = crypto.randomBytes(16).toString('base64');
-                resolve(code);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    },
-
-    async generateResetHashAsync(code: string): Promise<string> {
-
-    },
-
-    async generateActivationTokenAsync(): Promise<string> {
+    async generateTokenAsync(): Promise<string> {
         return new Promise((resolve, reject) => {
             try {
                 const token = crypto.randomBytes(16).toString('hex');
@@ -35,7 +20,7 @@ const verificationService = {
         });
     },
 
-    async generateActivationHashAsync(token: string): Promise<string> {
+    async generateHashAsync(token: string): Promise<string> {
         return new Promise((resolve, reject) => {
             try {
                 const hash = crypto.createHash('sha256');
@@ -49,10 +34,8 @@ const verificationService = {
     },
 
     async storeActivationHashAsync(token: string, user: User): Promise<void> {
-        // remove any verification hash associated with the user
-        await this.removeVerificationHashAsync(user);
         const repository = getRepository(Verification);
-        const hash = await this.generateActivationHashAsync(token);
+        const hash = await this.generateHashAsync(token);
         const verification: Verification = {
             token: hash,
             // wrong date. Date.now is returning Europe timezone
@@ -65,7 +48,7 @@ const verificationService = {
 
     async removeVerificationHashAsync(user: User): Promise<void> {
         const repository = getRepository(Verification);
-        const verification = await repository.findOne({ user });
+        const verification = await repository.find({ user });
         if (!!verification) {
             await repository.remove(verification);
         }
@@ -101,7 +84,7 @@ const verificationService = {
     async verifyAccount(token: string): Promise<boolean> {
         const repository = getRepository(Verification);
         // create a hash with the token
-        const hash = await this.generateActivationHashAsync(token);
+        const hash = await this.generateHashAsync(token);
         // look for the hash in the database
         const verification = await repository.findOne({ token: hash }, { relations: ['user'] });
         // if verification entity is found, check if it has not expired
