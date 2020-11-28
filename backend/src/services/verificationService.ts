@@ -5,7 +5,6 @@ import Verification from '../models/verification';
 import userService from './userService';
 import User from '../models/user';
 import Mail from 'nodemailer/lib/mailer';
-import { resolve } from 'path';
 
 
 const verificationService = {
@@ -13,12 +12,16 @@ const verificationService = {
     async generateResetCodeAsync(): Promise<string> {
         return new Promise((resolve, reject) => {
             try {
-                const code = crypto.randomBytes(16).toString('hex');
+                const code = crypto.randomBytes(16).toString('base64');
                 resolve(code);
             } catch (error) {
                 reject(error);
             }
         });
+    },
+
+    async generateResetHashAsync(code: string): Promise<string> {
+
     },
 
     async generateActivationTokenAsync(): Promise<string> {
@@ -43,10 +46,10 @@ const verificationService = {
                 reject(error);
             }
         });
-
     },
 
     async storeActivationHashAsync(token: string, user: User): Promise<void> {
+        // remove any verification hash associated with the user
         await this.removeVerificationHashAsync(user);
         const repository = getRepository(Verification);
         const hash = await this.generateActivationHashAsync(token);
