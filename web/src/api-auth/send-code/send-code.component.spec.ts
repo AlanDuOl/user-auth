@@ -122,7 +122,6 @@ describe('SendCodeComponent', () => {
     expect(el.textContent).toBe(message);
   }));
 
-
   it('#sendCode should not set isLoading and make the request if form data is invalid', () => {
     // form is invalid as default
     // test if #isLoading is false before call #sendCode

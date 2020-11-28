@@ -2,6 +2,7 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
+import { delay, tap } from 'rxjs/operators';
 import { uiPath } from 'src/constants';
 import { AuthService } from '../auth.service';
 
@@ -119,5 +120,39 @@ describe('RequestCodeComponent', () => {
     el = document.querySelector('.error-text');
     // assert
     expect(el.textContent).toBe(message);
+  }));
+
+  it('#requestCode should not set #isLoading or make the request if form data is invalid', () => {
+    // form is invalid as default
+    // test if #isLoading is false before call #sendCode
+    expect(component.isLoading).toBe(false);
+    // call #sendCode
+    component.requestCode();
+    // #isLoading value won't change
+    expect(component.isLoading).toBe(false);
+  });
+
+  it('#isLoading should be true while request does not complete', fakeAsync(() => {
+    // make form control valid to allow #isLoading reasignment
+    component.form.get('email').setValue('alan@abc.com');
+
+    // #isLoading should be false before #sendCode is called
+    expect(component.isLoading).toBe(false);
+
+    // define async request
+    spyOn(auth, 'requestResetCode').and.returnValue(of({ message: 'test request' }).pipe(
+      tap(() => {
+        // assert for #isLoading to be true before the request end
+        expect(component.isLoading).toBe(true)
+      }),
+      // set request to wait 2 seconds to return
+      delay(2000)
+    ));
+    // run delayed request
+    component.requestCode();
+    // simulate delay of 2 seconds
+    tick(2000);
+    // #isLoading should be false after the request completes
+    expect(component.isLoading).toBe(false);
   }));
 });
