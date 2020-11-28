@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/user';
 import authService from '../services/authService';
+import resetService from '../services/resetService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
 import verificationService from '../services/verificationService';
@@ -59,7 +60,7 @@ const accountController = {
         const newUser = await userService.createUserAsync(data);
 
         // create activation token
-        const activationToken = verificationService.generateActivationToken();
+        const activationToken = await verificationService.generateTokenAsync();
         // save token hash to the database
         await verificationService.storeActivationHashAsync(activationToken, newUser);
         // send verification email
@@ -109,15 +110,32 @@ const accountController = {
         return res.status(400).json({ message: 'Unable to validate account' });
     },
 
-    async sendEmailAsync(req: Request, res: Response): Promise<Response> {
+    async sendVerificationAsync(req: Request, res: Response): Promise<Response> {
         // get userId from params
         const { id } = req.params;
-        // generate a new token and store the hash in database
-        const token = verificationService.generateActivationToken();
         const user = await userService.getByIdAsync(+id);
+        await verificationService.removeVerificationHashAsync(user);
+        const token = await verificationService.generateTokenAsync();
         await verificationService.storeActivationHashAsync(token, user);
         await verificationService.sendVerificationEmailAsync(user.email, token, req.hostname);
         return res.status(200).json({ message: 'Email sent successfully' });
+    },
+
+    async sendResetCodeAsync(req: Request, res: Response): Promise<Response> {
+        const { email } = req.body;
+        const user = await userService.findByEmailAsync(email);
+        if (!user) {
+            return res.status(404).json({ message: 'No user found' });
+        }
+        else if (!user.isVerified) {
+            return res.status(400).json({ messsage: 'This account is not verified' });
+        }
+        await resetService.removeHashAsync(user);
+        const token = await verificationService.generateTokenAsync();
+        await resetService.storeTokenAsync(token, user);
+        await resetService.sendResetEmailAsync(user.email, token);
+        return res.status(201)
+            .json({ message: 'Code sent successfully. Plase check your email address' });
     }
 
 }
