@@ -38,7 +38,7 @@ const resetService = {
                 If it was you, use the code bellow to reset the account password. If it was not you, ignore this email.
             </p>
             <p>
-                Code: ${token}.
+                Code: ${token}
             </p>`
         }
         await smtpTransporter.sendMail(mailOptions);
