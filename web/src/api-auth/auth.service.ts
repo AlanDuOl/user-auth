@@ -122,4 +122,8 @@ export class AuthService {
   requestResetCode(email: string): Observable<any> {
     return this.http.post<any>(`${apiPath.sendCode}`, { email });
   }
+
+  sendResetCode(code: string): Observable<any> {
+    return this.http.get<any>(`${apiPath.validateCode}/${code}`);
+  }
 }
