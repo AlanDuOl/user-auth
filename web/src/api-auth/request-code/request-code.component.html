@@ -1,4 +1,4 @@
-<section>
+<section *ngIf="!isLoading; else loader">
     <h4>Request reset code</h4>
     <p class="error-text" *ngIf="message | async">{{message | async}}</p>
     <form novalidate [formGroup]="form" (ngSubmit)="requestCode()">
@@ -9,3 +9,6 @@
         <button type="submit">Send</button>
     </form>
 </section>
+<ng-template #loader>
+    <app-page-loader></app-page-loader>
+</ng-template>
