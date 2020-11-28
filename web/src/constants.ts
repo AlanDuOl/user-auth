@@ -6,7 +6,7 @@ export const apiPath = {
     register: `${baseApiPath}/register`,
     verify: `${baseApiPath}/verify`,
     sendemail: `${baseApiPath}/sendemail`,
-    requestCode: `${baseApiPath}/requestcode`,
+    sendCode: `${baseApiPath}/sendcode`,
     get: baseApiPath,
 }
 
