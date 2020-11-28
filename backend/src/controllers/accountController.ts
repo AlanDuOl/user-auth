@@ -128,7 +128,7 @@ const accountController = {
             return res.status(404).json({ message: 'No user found' });
         }
         else if (!user.isVerified) {
-            return res.status(400).json({ messsage: 'This account is not verified' });
+            return res.status(400).json({ message: 'This account is not verified' });
         }
         await resetService.removeHashAsync(user);
         const token = await verificationService.generateTokenAsync();
