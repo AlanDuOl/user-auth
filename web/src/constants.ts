@@ -7,6 +7,8 @@ export const apiPath = {
     verify: `${baseApiPath}/verify`,
     sendemail: `${baseApiPath}/sendemail`,
     sendCode: `${baseApiPath}/sendcode`,
+    validateCode: `${baseApiPath}/validatecode`,
+    resetPassword: `${baseApiPath}/resetpassword`,
     get: baseApiPath,
 }
 
