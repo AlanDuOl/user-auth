@@ -2,7 +2,6 @@ import { async, ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core
 import { ReactiveFormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { TestScheduler } from 'rxjs/testing';
 import { uiPath } from 'src/constants';
 import { AuthService } from '../auth.service';
 
@@ -15,7 +14,6 @@ describe('RequestCodeComponent', () => {
   let router: Router;
   let mockAuth: Partial<AuthService>;
   let auth: AuthService;
-  let scheduler: TestScheduler;
 
   beforeEach(async(() => {
     mockRouter = {
@@ -42,9 +40,6 @@ describe('RequestCodeComponent', () => {
     component = fixture.componentInstance;
     router = fixture.debugElement.injector.get(Router);
     auth = fixture.debugElement.injector.get(AuthService);
-    scheduler = new TestScheduler((actual, expected) => {
-      expect(actual).toEqual(expected);
-    });
     fixture.detectChanges();
   });
 
