@@ -24,7 +24,7 @@ const verificationService = {
     },
 
     async storeActivationHashAsync(token: string, user: User): Promise<void> {
-        await this.removeTokenAsync(user);
+        await this.removeVerificationHashAsync(user);
         const repository = getRepository(Verification);
         const hash = this.generateActivationHash(token);
         
@@ -38,7 +38,7 @@ const verificationService = {
         await repository.save(userVerification);
     },
 
-    async removeTokenAsync(user: User): Promise<void> {
+    async removeVerificationHashAsync(user: User): Promise<void> {
         const repository = getRepository(Verification);
         const verification = await repository.findOne({ user });
         if (!!verification) {
