@@ -13,13 +13,29 @@ export class SendCodeComponent implements OnInit {
   form = new FormGroup({
     email: new FormControl('', [Validators.email, Validators.required])
   })
-  response: BehaviorSubject<string | null> = new BehaviorSubject(null);
+  isLoading = false;
+  message: BehaviorSubject<string | null> = new BehaviorSubject(null);
 
-  constructor(private auth: AuthService) { }
+  constructor(private auth: AuthService, private router: Router) { }
 
   ngOnInit(): void {
   }
 
-  
-
+  requestCode() {
+    // if form data is valid, request reset code
+    if (this.form.valid) {
+      this.isLoading = true;
+      const email = this.form.get('email').value;
+      this.auth.requestResetCode(email).subscribe(
+        () => {
+          this.isLoading = false;
+          this.router.navigate([`/${uiPath.sendCode}`]);
+        },
+        err => {
+          this.message.next(err.error.message);
+          this.isLoading = false;
+        }
+      );
+    }
+  }
 }

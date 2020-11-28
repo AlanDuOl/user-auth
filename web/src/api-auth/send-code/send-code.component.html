@@ -1,3 +1,15 @@
-<section>
-    
+<section *ngIf="!isLoading; else loader">
+    <h4>Send code</h4>
+    <p class="error-text" *ngIf="message | async">{{message | async}}</p>
+    <form novalidate [formGroup]="form" (ngSubmit)="sendCode()">
+        <label>
+            Reset code
+            <input type="text" formControlName="code" />
+        </label>
+        <button type="submit">Send</button>
+    </form>
 </section>
+<ng-template #loader>
+    <app-page-loader></app-page-loader>
+</ng-template>
+
