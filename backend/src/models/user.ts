@@ -20,6 +20,15 @@ export default class User {
 
     @Column()
     isVerified: boolean;
+    
+    @Column()
+    createdAt: Date;
+
+    @Column()
+    updatedAt: Date;
+
+    @Column()
+    resetPasswordDate: Date;
 
     @ManyToMany(() => Role, { cascade: true })
     @JoinTable({ name: 'userRoles' })
