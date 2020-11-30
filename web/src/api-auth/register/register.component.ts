@@ -5,7 +5,7 @@ import { RegisterFeedbackComponent } from '../../bootstrap/register-feedback/reg
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { User } from '../../models';
 import { DialogService } from '../dialog.service';
-import { passwordConstraints } from '../../utils';
+import { passwordConstraints, passwordsEqual } from '../../utils';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 import { uiPath } from 'src/constants';
@@ -70,7 +70,7 @@ export class RegisterComponent implements OnInit {
       // allow navigation without canDeactivate pop-up
       this.startSubmmit = true;
       // check if passwords are equal
-      if (this.passwordsEqual()) {
+      if (passwordsEqual(this.form)) {
         // get form data in correct format
         const user = this.getRegisterData();
         // set page loader to wait async operation
@@ -114,13 +114,6 @@ export class RegisterComponent implements OnInit {
       confirmPassword: this.form.get('confirmPassword').value
     }
     return user;
-  }
-
-  private passwordsEqual(): boolean {
-    if (this.form.get('password').value === this.form.get('confirmPassword').value) {
-      return true;
-    }
-    return false;
   }
 
 }

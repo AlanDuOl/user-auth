@@ -1,4 +1,4 @@
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormGroup, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { validationMessage } from './constants';
 
 export function passwordConstraints(controls: AbstractControl): ValidationErrors | null {
@@ -39,3 +39,10 @@ function checkPassword(value: string): ValidationErrors | null {
     }
     return null;
 }
+
+export function passwordsEqual(form: FormGroup): boolean {
+    if (form.get('password').value === form.get('confirmPassword').value) {
+      return true;
+    }
+    return false;
+  }
