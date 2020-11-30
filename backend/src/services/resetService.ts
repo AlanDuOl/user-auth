@@ -31,7 +31,7 @@ const resetService = {
         const mailOptions = {
             from: 'from_auth-user@mail.com',
             to: email,
-            subject: 'Please confirm your Email account',
+            subject: 'Reset password service',
             html: `<p>Hello!</p>
             <p>
                 We received a request to reset the password of the account associated with this email address.
@@ -43,6 +43,22 @@ const resetService = {
         }
         await smtpTransporter.sendMail(mailOptions);
     },
+
+    async validateTokenAsync(token: string): Promise<boolean> {
+        const repository = getRepository(ChangePassword);
+        const tokenHash = await verificationService.generateHashAsync(token);
+        // look for the hash in the database
+        const changePassword = await repository
+            .findOne({ token: tokenHash }, { relations: ['user'] });
+        if (!!changePassword) {
+            const tokenDate = Date.parse(changePassword.expiresAt.toUTCString());
+            if (tokenDate > Date.now()) {
+                // if changePassword has not expired, return true. All other cases, return false
+                return true;
+            }
+        }
+        return false;
+    }
 
 }
 

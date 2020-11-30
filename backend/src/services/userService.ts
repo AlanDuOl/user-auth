@@ -47,7 +47,10 @@ const userService = {
             email: user.email,
             passwordHash: hash,
             roles: [userRole],
-            isVerified: false
+            isVerified: false,
+            createdAt: new Date(Date.now()),
+            updatedAt: new Date(Date.now()),
+            resetPasswordDate: new Date(Date.now())
         }
         // create user and save it to the database
         const newUser = userRepository.create(userData)

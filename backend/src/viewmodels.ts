@@ -5,7 +5,10 @@ export interface NewUser {
     email: string,
     passwordHash: string,
     roles: Role[],
-    isVerified: boolean
+    isVerified: boolean,
+    createdAt: Date,
+    updatedAt: Date,
+    resetPasswordDate: Date
 }
 
 export interface RegisterUser {

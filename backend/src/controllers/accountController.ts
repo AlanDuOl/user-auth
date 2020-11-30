@@ -136,7 +136,23 @@ const accountController = {
         await resetService.sendResetEmailAsync(user.email, token);
         return res.status(201)
             .json({ message: 'Code sent successfully. Plase check your email address' });
-    }
+    },
+
+    async validateResetCodeAsync(req: Request, res: Response): Promise<Response> {
+        // grab token from request
+        const { token } = req.params;
+        // validate token
+        const isValid = await resetService.validateTokenAsync(token);
+        // authorize password reset
+        if (isValid) {
+            return res.status(200).json({ message: 'Valid token' });
+        }
+        return res.status(400).json({ message: 'Invalid token' });
+    },
+
+    // async resetPassword(req: Request, res: Response): Promise<Response> {
+    //     return;
+    // }
 
 }
 

@@ -143,7 +143,7 @@ describe('RequestCodeComponent', () => {
     spyOn(auth, 'requestResetCode').and.returnValue(of({ message: 'test request' }).pipe(
       tap(() => {
         // assert for #isLoading to be true before the request end
-        expect(component.isLoading).toBe(true)
+        expect(component.isLoading).toBe(true);
       }),
       // set request to wait 2 seconds to return
       delay(2000)
