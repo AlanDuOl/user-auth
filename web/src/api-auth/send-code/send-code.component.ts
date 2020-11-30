@@ -29,9 +29,9 @@ export class SendCodeComponent implements OnInit {
       this.isLoading = true;
       const code = this.form.get('code').value;
       this.auth.sendResetCode(code).subscribe(
-        () => {
+        (res: any) => {
           this.isLoading = false;
-          this.router.navigate([`/${uiPath.resetPassword}`]);
+          this.router.navigate([`/${uiPath.resetPassword}`, { id: res.id }]);
         },
         (err: any) => {
           this.message.next(err.error.message);

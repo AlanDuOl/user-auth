@@ -145,7 +145,7 @@ const accountController = {
         const isValid = await resetService.validateTokenAsync(token);
         // authorize password reset
         if (isValid) {
-            return res.status(200).json({ message: 'Valid token' });
+            return res.status(200).json({ message: 'Valid token', id: token });
         }
         return res.status(400).json({ message: 'Invalid token' });
     },
