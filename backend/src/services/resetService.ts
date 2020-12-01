@@ -1,6 +1,7 @@
 import { getRepository } from 'typeorm';
 import { ChangePassword } from '../models/changePassword';
 import User from '../models/user';
+import utils from '../utils';
 import verificationService from './verificationService';
 
 const resetService = {
@@ -10,11 +11,9 @@ const resetService = {
         const hash = await verificationService.generateHashAsync(token);
         const changePassword: ChangePassword = {
             token: hash,
-            // wrong date. Date.now is returning Europe timezone
-            // subtract 3h and add 5min
-            expiresAt: new Date(Date.now() - 3600000 * 3 + 300000),
+            // add 5min
+            expiresAt: new Date(utils.getCurrentTime() + 300000),
             validated: false,
-            expiresValidation: new Date(Date.now() - 3600000 * 3),
             user
         }
         const newChangePassword = repository.create(changePassword);
@@ -23,7 +22,12 @@ const resetService = {
 
     async removeHashByUserAsync(user: User): Promise<void> {
         const repository = getRepository(ChangePassword);
-        const changePassword = await repository.findOne({ user });
+        // get tokenHash related with user
+        const changePassword = await repository.findOne({
+            relations: ['user'],
+            where: { user }
+        });
+        // attempt to remove it
         if (!!changePassword) {
             await repository.remove(changePassword);
         }
@@ -31,7 +35,8 @@ const resetService = {
 
     async removeHashByTokenAsync(token: string): Promise<void> {
         const repository = getRepository(ChangePassword);
-        const changePassword = await repository.findOne({ token });
+        const tokenHash = await verificationService.generateHashAsync(token);
+        const changePassword = await repository.findOne(tokenHash);
         if (!!changePassword) {
             await repository.remove(changePassword);
         }
@@ -57,16 +62,21 @@ const resetService = {
 
     async validateTokenAsync(token: string): Promise<boolean> {
         const repository = getRepository(ChangePassword);
+        // generate a hash with the token
         const tokenHash = await verificationService.generateHashAsync(token);
         // look for the hash in the database
-        const changePassword = await repository
-            .findOne({ token: tokenHash }, { relations: ['user'] });
+        const changePassword = await repository.findOne(tokenHash);
         if (!!changePassword) {
             const tokenDate = Date.parse(changePassword.expiresAt.toUTCString());
-            // if token has not expired, set validated to true and return true.
+            const currentTime = utils.getCurrentTime();
+            // if token has not expired, set validated to true
+            // and update expiresAt to now + 5min and return true.
             // All other cases, return false
-            if (tokenDate > Date.now()) {
-                await repository.update(changePassword.token, { validated: true });
+            if (tokenDate > currentTime) {
+                await repository.update(changePassword.token, { 
+                    validated: true,
+                    expiresAt: new Date(utils.getCurrentTime() + 300000),
+                });
                 return true;
             }
         }
@@ -79,8 +89,9 @@ const resetService = {
         const entity = await repository.findOne(token);
         if (!!entity) {
             // check if it is validated and validation has not expired
-            const dateCheck = Date.parse(entity.expiresValidation.toUTCString());
-            if (dateCheck > Date.now() && entity.validated) {
+            const dateCheck = Date.parse(entity.expiresAt.toUTCString());
+            const currentTime = utils.getCurrentTime();
+            if (dateCheck > currentTime && entity.validated) {
                 // remove entity instance from DB and return true
                 await repository.remove(entity);
                 return true;
