@@ -7,6 +7,7 @@ const routes = Router();
 routes.get('/verify/:token', accountController.verifyAsync);
 routes.get('/sendemail/:id', accountController.sendVerificationAsync);
 routes.get('/validatecode/:token', accountController.validateResetCodeAsync);
+routes.post('/resetpassword/:id', accountController.resetPassword);
 routes.post('/sendcode', accountController.sendResetCodeAsync);
 routes.post('/register', accountController.registerAsync);
 routes.post('/login', accountController.loginAsync);
