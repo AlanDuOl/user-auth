@@ -5,7 +5,7 @@ import resetService from '../services/resetService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
 import verificationService from '../services/verificationService';
-import { RegisterUser, LoginUser } from '../viewmodels';
+import { RegisterUser, LoginUser, ResetData } from '../viewmodels';
 
 const accountController = {
 
@@ -150,9 +150,19 @@ const accountController = {
         return res.status(400).json({ message: 'Invalid token' });
     },
 
-    // async resetPassword(req: Request, res: Response): Promise<Response> {
-    //     return;
-    // }
+    async resetPassword(req: Request, res: Response): Promise<Response> {
+        // grab param
+        const data: ResetData = { ...req.body };
+        // validate data
+        // validate changePassword instance
+        const allowChange = await resetService.allowPasswordChange(data.token);
+        if (allowChange) {
+            // change password if validation succeeds
+
+            return res.status(200).json({ message: 'Password reset successfuly' });
+        }
+        return res.status(400).json({ message: 'Token is invalid or has expired' });
+    }
 
 }
 
