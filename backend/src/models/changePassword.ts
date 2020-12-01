@@ -10,8 +10,14 @@ export class ChangePassword {
     @Column()
     expiresAt: Date;
 
+    @Column()
+    validated: boolean;
+
+    @Column()
+    expiresValidation: Date;
+
     @OneToOne(() => User, user => user.verification)
     @JoinColumn()
     user: User;
-    
+
 }

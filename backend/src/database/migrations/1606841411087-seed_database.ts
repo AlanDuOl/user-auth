@@ -1,7 +1,7 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class seedDatabase1606227664947 implements MigrationInterface {
-    name = 'seedDatabase1606227664947'
+export class seedDatabase1606841411087 implements MigrationInterface {
+    name = 'seedDatabase1606841411087'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         // seed roles
