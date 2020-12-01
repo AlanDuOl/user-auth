@@ -55,10 +55,26 @@ const resetService = {
             .findOne({ token: tokenHash }, { relations: ['user'] });
         if (!!changePassword) {
             const tokenDate = Date.parse(changePassword.expiresAt.toUTCString());
+            // if token has not expired, set validated to true and return true.
+            // All other cases, return false
             if (tokenDate > Date.now()) {
-                // if changePassword has not expired, set validated to true and return true.
-                // All other cases, return false
                 await repository.update(changePassword.token, { validated: true });
+                return true;
+            }
+        }
+        return false;
+    },
+
+    async allowPasswordChange(token: string): Promise<boolean> {
+        const repository = getRepository(ChangePassword);
+        // grab changePassword instance
+        const entity = await repository.findOne(token);
+        if (!!entity) {
+            // check if it is validated and validation has not expired
+            const dateCheck = Date.parse(entity.expiresValidation.toUTCString());
+            if (dateCheck > Date.now() && entity.validated) {
+                // remove entity instance from DB and return true
+                await repository.remove(entity);
                 return true;
             }
         }
