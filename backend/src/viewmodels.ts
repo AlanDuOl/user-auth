@@ -28,3 +28,9 @@ export interface PayloadUser {
     name: string,
     roles: string[]
 }
+
+export interface ResetData {
+    password: string,
+    confirmPassword: string,
+    token: string
+}
