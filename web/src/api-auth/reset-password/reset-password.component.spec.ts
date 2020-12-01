@@ -140,6 +140,20 @@ describe('ResetPasswordComponent', () => {
     expect(component.isLoading).toBe(false);
   });
 
+  it('#message null should not render error-text element', fakeAsync(() => {
+    // arrenge
+    let el: HTMLElement;
+    // set message to null
+    component.message.next(null);
+    // update template
+    fixture.detectChanges();
+    tick();
+    // search element in template
+    el = document.querySelector('.error-text');
+    // assert
+    expect(el).toBe(null);
+  }));
+
   it('#resetPassword should show error message and set isLoading to false', () => {
     // set request to return error
     const mockError = { error: { message: 'Test error' } };
@@ -203,4 +217,5 @@ describe('ResetPasswordComponent', () => {
     expect(el).not.toBeNull();
     expect(loader).toBeNull();
   });
+
 });
