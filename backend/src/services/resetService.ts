@@ -21,9 +21,17 @@ const resetService = {
         await repository.save(newChangePassword);
     },
 
-    async removeHashAsync(user: User): Promise<void> {
+    async removeHashByUserAsync(user: User): Promise<void> {
         const repository = getRepository(ChangePassword);
         const changePassword = await repository.findOne({ user });
+        if (!!changePassword) {
+            await repository.remove(changePassword);
+        }
+    },
+
+    async removeHashByTokenAsync(token: string): Promise<void> {
+        const repository = getRepository(ChangePassword);
+        const changePassword = await repository.findOne({ token });
         if (!!changePassword) {
             await repository.remove(changePassword);
         }
@@ -79,6 +87,15 @@ const resetService = {
             }
         }
         return false;
+    },
+
+    async getByIdAsync(token: string): Promise<ChangePassword | undefined> {
+        const repository = getRepository(ChangePassword);
+        const entity = await repository.findOne({
+            relations: ['user'],
+            where: { token }
+        });
+        return entity;
     }
 
 }

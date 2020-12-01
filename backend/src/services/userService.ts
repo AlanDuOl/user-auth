@@ -4,7 +4,9 @@ import Role from '../models/role';
 import User from '../models/user';
 import { PayloadUser, RegisterUser, NewUser } from '../viewmodels';
 import authService from './authService';
+import resetService from './resetService';
 import roleService from './roleService';
+import verificationService from './verificationService';
 
 const userService = {
 
@@ -67,6 +69,21 @@ const userService = {
     async activateAsync(userId: number): Promise<void> {
         const repository = getRepository(User);
         await repository.update(userId, { isVerified: true });
+    },
+
+    async resetPassword(password: string, token: string): Promise<boolean> {
+        const repository = getRepository(User);
+        // get ChangePassword instance
+        const changePassword = await resetService.getByIdAsync(token);
+        // create password hash
+        const passwordHash = await verificationService.generateHashAsync(password);
+        // change password if token entity is found
+        if (!!changePassword) {
+            await repository.update(changePassword.user.id, { passwordHash });
+            return true;
+        }
+        // return false on entity not found
+        return false;
     }
 
 }

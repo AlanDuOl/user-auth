@@ -130,7 +130,7 @@ const accountController = {
         else if (!user.isVerified) {
             return res.status(400).json({ message: 'This account is not verified' });
         }
-        await resetService.removeHashAsync(user);
+        await resetService.removeHashByUserAsync(user);
         const token = await verificationService.generateTokenAsync();
         await resetService.storeTokenAsync(token, user);
         await resetService.sendResetEmailAsync(user.email, token);
@@ -151,15 +151,29 @@ const accountController = {
     },
 
     async resetPassword(req: Request, res: Response): Promise<Response> {
-        // grab param
+        // post data
         const data: ResetData = { ...req.body };
         // validate data
+        await validationService.validateResetDataAsync(data);
+        // check if passwords are different
+        if (data.password !== data.confirmPassword) {
+            return res.status(400).json({ message: 'Passwords are different' });
+        }
         // validate changePassword instance
         const allowChange = await resetService.allowPasswordChange(data.token);
+        // remove reset token hash
+        await resetService.removeHashByTokenAsync(data.token);
+        // check if change is allowed
         if (allowChange) {
-            // change password if validation succeeds
-
-            return res.status(200).json({ message: 'Password reset successfuly' });
+            // change password
+            const passwordReset = await userService.resetPassword(data.password, data.token);
+            // if change is successful return ok response, otherwise return not found response
+            if (passwordReset) {
+                return res.status(200).json({ message: 'Password reset successfuly' });
+            }
+            // not found because the only way to return false is if ChangePassword entity is not found
+            // other errors will return 500 error by middleware
+            return res.status(404).json({ message: 'Could not reset password' });
         }
         return res.status(400).json({ message: 'Token is invalid or has expired' });
     }
