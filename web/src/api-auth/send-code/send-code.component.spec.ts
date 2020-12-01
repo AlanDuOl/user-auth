@@ -5,8 +5,9 @@ import { Observable, of, throwError } from 'rxjs';
 import { delay, tap } from 'rxjs/operators';
 import { uiPath } from 'src/constants';
 import { AuthService } from '../auth.service';
-
 import { SendCodeComponent } from './send-code.component';
+import { PageLoaderComponent } from '../../app/page-loader/page-loader.component';
+
 
 describe('SendCodeComponent', () => {
   let component: SendCodeComponent;
@@ -21,10 +22,13 @@ describe('SendCodeComponent', () => {
       navigate: jasmine.createSpy('navigate').and.callFake(() => { })
     },
       mockAuth = {
-        sendResetCode(): Observable<any> { return of({ message: 'Code validated' }) }
+        sendResetCode(): Observable<any> { return of({ message: 'Code validated', id: 22 }) }
       }
     TestBed.configureTestingModule({
-      declarations: [SendCodeComponent],
+      declarations: [
+        SendCodeComponent,
+        PageLoaderComponent
+      ],
       imports: [
         ReactiveFormsModule
       ],
@@ -48,14 +52,13 @@ describe('SendCodeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('#sendCode should redirect to resetPassword', fakeAsync(() => {
+  it('#sendCode should redirect to resetPassword', () => {
     // define expected param
-    const expectedRoute = [`/${uiPath.resetPassword}`];
+    const expectedRoute = [`/${uiPath.resetPassword}`, { id: 22 }];
 
     // make form control valid and call #sendCode
     component.form.get('code').setValue('aeid238sdsjas212');
     component.sendCode();
-    tick();
 
     // assert for navigate call
     expect(router.navigate).toHaveBeenCalledWith(expectedRoute);
@@ -68,9 +71,9 @@ describe('SendCodeComponent', () => {
         expect(true).toBe(false);
       }
     );
-  }));
+  });
 
-  it('#requestCode should set message', fakeAsync(() => {
+  it('#requestCode should set message', () => {
     // define return error
     const mockError = { error: { message: 'Error in request test' } };
     // make request return error
@@ -79,7 +82,6 @@ describe('SendCodeComponent', () => {
     // make form control valid and call #sendCode
     component.form.get('code').setValue('aeid238sdsjas212');
     component.sendCode();
-    tick();
 
     // assert message result to equal the error message in mockError
     component.message.asObservable().subscribe(
@@ -91,23 +93,22 @@ describe('SendCodeComponent', () => {
       }
     );
     expect(router.navigate).not.toHaveBeenCalled();
-  }));
+  });
 
-  it('#message null should not render error-text element', fakeAsync(() => {
+  it('#message null should not render error-text element', () => {
     // arrenge
     let el: HTMLElement;
     // set message to null
     component.message.next(null);
     // update template
     fixture.detectChanges();
-    tick();
     // search element in template
     el = document.querySelector('.error-text');
     // assert
     expect(el).toBe(null);
-  }));
+  });
 
-  it('#message not null should render error-text element', fakeAsync(() => {
+  it('#message not null should render error-text element', () => {
     // arrenge
     const message = 'test message';
     let el: HTMLElement;
@@ -115,12 +116,11 @@ describe('SendCodeComponent', () => {
     component.message.next(message);
     // update template
     fixture.detectChanges();
-    tick();
     // search element in template
     el = document.querySelector('.error-text');
     // assert
     expect(el.textContent).toBe(message);
-  }));
+  });
 
   it('#sendCode should not set isLoading and make the request if form data is invalid', () => {
     // form is invalid as default
@@ -155,4 +155,35 @@ describe('SendCodeComponent', () => {
     // #isLoading should be false after the request completes
     expect(component.isLoading).toBe(false);
   }));
+
+  it('#loader should load and component not', () => {
+    // define elements
+    let el: HTMLElement;
+    let loader: HTMLElement;
+    // set isLoading to true
+    component.isLoading = true;
+    fixture.detectChanges();
+    // grab the elements
+    el = document.querySelector('.view');
+    loader = document.querySelector('.loader-view');
+    // assert
+    expect(el).toBeNull();
+    expect(loader).not.toBeNull();
+  });
+
+  it('#loader should not load but component', () => {
+    // define elements
+    let el: HTMLElement;
+    let loader: HTMLElement;
+    // set isLoading to true
+    component.isLoading = false;
+    fixture.detectChanges();
+    // grab the elements
+    el = document.querySelector('.view');
+    loader = document.querySelector('.loader-view');
+    // assert
+    expect(el).not.toBeNull();
+    expect(loader).toBeNull();
+  });
+
 });
