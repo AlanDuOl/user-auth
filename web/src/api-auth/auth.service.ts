@@ -3,7 +3,7 @@ import { BehaviorSubject, concat, Observable, of } from 'rxjs';
 import { filter, map, take, tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { apiPath, logoutStatus, uiPath } from '../constants';
-import { LoginUser, AuthUser, User } from '../models';
+import { LoginUser, AuthUser, User, ResetPassword } from '../models';
 import { Router } from '@angular/router';
 
 interface IUser {
@@ -125,5 +125,9 @@ export class AuthService {
 
   sendResetCode(code: string): Observable<any> {
     return this.http.get<any>(`${apiPath.validateCode}/${code}`);
+  }
+
+  resetPassword(passwords: ResetPassword): Observable<any> {
+    return this.http.post<any>(`${apiPath.resetPassword}`, passwords)
   }
 }

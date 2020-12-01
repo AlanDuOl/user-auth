@@ -32,8 +32,7 @@ export enum FeedBackType {
     warning
 }
 
-export enum ResetPassword {
-    sendCode,
-    validateCode,
-    submitForm
+export interface ResetPassword {
+    password: string,
+    changePassword: string
 }

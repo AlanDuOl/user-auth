@@ -45,4 +45,4 @@ export function passwordsEqual(form: FormGroup): boolean {
       return true;
     }
     return false;
-  }
+}
