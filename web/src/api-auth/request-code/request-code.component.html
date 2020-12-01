@@ -1,4 +1,4 @@
-<section *ngIf="!isLoading; else loader">
+<section class="view" *ngIf="!isLoading; else loader">
     <h4>Request reset code</h4>
     <p class="error-text" *ngIf="message | async">{{message | async}}</p>
     <form novalidate [formGroup]="form" (ngSubmit)="requestCode()">

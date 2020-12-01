@@ -155,4 +155,35 @@ describe('RequestCodeComponent', () => {
     // #isLoading should be false after the request completes
     expect(component.isLoading).toBe(false);
   }));
+
+  it('#loader should load and component not', () => {
+    // define elements
+    let el: HTMLElement;
+    let loader: HTMLElement;
+    // set isLoading to true
+    component.isLoading = true;
+    fixture.detectChanges();
+    // grab the elements
+    el = document.querySelector('.view');
+    loader = document.querySelector('.loader-view');
+    // assert
+    expect(el).toBeNull();
+    expect(loader).not.toBeNull();
+  });
+
+  it('#loader should not load but component', () => {
+    // define elements
+    let el: HTMLElement;
+    let loader: HTMLElement;
+    // set isLoading to true
+    component.isLoading = false;
+    fixture.detectChanges();
+    // grab the elements
+    el = document.querySelector('.view');
+    loader = document.querySelector('.loader-view');
+    // assert
+    expect(el).not.toBeNull();
+    expect(loader).toBeNull();
+  });
+  
 });
