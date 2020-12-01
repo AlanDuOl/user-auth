@@ -85,8 +85,10 @@ const resetService = {
 
     async allowPasswordChange(token: string): Promise<boolean> {
         const repository = getRepository(ChangePassword);
+        // create token hash
+        const tokenHash = await verificationService.generateHashAsync(token);
         // grab changePassword instance
-        const entity = await repository.findOne(token);
+        const entity = await repository.findOne(tokenHash);
         if (!!entity) {
             // check if it is validated and validation has not expired
             const dateCheck = Date.parse(entity.expiresAt.toUTCString());
