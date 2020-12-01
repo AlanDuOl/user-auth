@@ -3,7 +3,7 @@
     <p class="error-text" *ngIf="message | async">{{message | async}}</p>
     <form novalidate [formGroup]="form" (ngSubmit)="sendCode()">
         <label>
-            Reset code
+            Verify your email and place the reset code bellow
             <input type="text" formControlName="code" />
         </label>
         <button type="submit">Send</button>
