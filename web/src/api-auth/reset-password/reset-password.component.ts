@@ -70,7 +70,8 @@ export class ResetPasswordComponent implements OnInit {
   getSubmitData(): ResetPassword {
     const data = {
       password: this.form.get('password').value,
-      changePassword: this.form.get('confirmPassword').value
+      confirmPassword: this.form.get('confirmPassword').value,
+      token: this.resetId
     }
     return data;
   }

@@ -34,5 +34,6 @@ export enum FeedBackType {
 
 export interface ResetPassword {
     password: string,
-    changePassword: string
+    confirmPassword: string,
+    token: string
 }
