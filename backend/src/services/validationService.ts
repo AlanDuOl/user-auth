@@ -40,7 +40,27 @@ const validationService = {
         
         // validate form data
         await schema.validate(data, { abortEarly: false });
-    }
+    },
+
+    async validateEmailAsync(email: string): Promise<void> {
+        // define structure of object to be validated
+        const schema = Yup.object().shape({
+            email: Yup.string().email().required()
+        });
+        
+        // validate form data
+        await schema.validate({ email }, { abortEarly: false });
+    },
+
+    async validateTokenAsync(token: string): Promise<void> {
+        // define structure of object to be validated
+        const schema = Yup.object().shape({
+            token: Yup.string().required().min(10)
+        });
+        
+        // validate form data
+        await schema.validate({ token }, { abortEarly: false });
+    },
 
 }
 
