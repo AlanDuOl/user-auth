@@ -53,7 +53,9 @@ const resetService = {
         if (!!changePassword) {
             const tokenDate = Date.parse(changePassword.expiresAt.toUTCString());
             if (tokenDate > Date.now()) {
-                // if changePassword has not expired, return true. All other cases, return false
+                // if changePassword has not expired, set validated to true and return true.
+                // All other cases, return false
+                await repository.update(changePassword.token, { validated: true });
                 return true;
             }
         }
