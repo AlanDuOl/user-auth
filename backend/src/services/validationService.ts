@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { LoginUser, RegisterUser } from '../viewmodels';
+import { LoginUser, RegisterUser, ResetData } from '../viewmodels';
 
 const validationService = {
     async validateRegisterDataAsync(data: RegisterUser): Promise<void> {
@@ -26,7 +26,22 @@ const validationService = {
 
         // validate form data
         await schema.validate(data, { abortEarly: false });
+    },
+
+    async validateResetDataAsync(data: ResetData): Promise<void> {
+        // define structure of object to be validated
+        const schema = Yup.object().shape({
+            password: Yup.string().required().max(8).min(6)
+                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
+            confirmPassword: Yup.string().required().max(8).min(6)
+                .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
+            token: Yup.string().required()
+        });
+        
+        // validate form data
+        await schema.validate(data, { abortEarly: false });
     }
+
 }
 
 export default validationService;
