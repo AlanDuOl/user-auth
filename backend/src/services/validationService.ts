@@ -35,7 +35,7 @@ const validationService = {
                 .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
             confirmPassword: Yup.string().required().max(8).min(6)
                 .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
-            token: Yup.string().required()
+            token: Yup.string().required().min(10)
         });
         
         // validate form data
