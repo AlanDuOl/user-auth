@@ -11,7 +11,10 @@ const resetService = {
         const changePassword: ChangePassword = {
             token: hash,
             // wrong date. Date.now is returning Europe timezone
-            expiresAt: new Date(Date.now() + 3600000 * 2),
+            // subtract 3h and add 5min
+            expiresAt: new Date(Date.now() - 3600000 * 3 + 300000),
+            validated: false,
+            expiresValidation: new Date(Date.now() - 3600000 * 3),
             user
         }
         const newChangePassword = repository.create(changePassword);
@@ -20,7 +23,7 @@ const resetService = {
 
     async removeHashAsync(user: User): Promise<void> {
         const repository = getRepository(ChangePassword);
-        const changePassword = await repository.find({ user });
+        const changePassword = await repository.findOne({ user });
         if (!!changePassword) {
             await repository.remove(changePassword);
         }
