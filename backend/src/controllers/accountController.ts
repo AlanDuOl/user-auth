@@ -122,7 +122,11 @@ const accountController = {
     },
 
     async sendResetCodeAsync(req: Request, res: Response): Promise<Response> {
+        // grab request data
         const { email } = req.body;
+        // validate email
+        await validationService.validateEmailAsync(email);
+        // find user with email
         const user = await userService.findByEmailAsync(email);
         if (!user) {
             return res.status(404).json({ message: 'No user found' });
@@ -130,6 +134,7 @@ const accountController = {
         else if (!user.isVerified) {
             return res.status(400).json({ message: 'This account is not verified' });
         }
+        // remove any token hash related to user
         await resetService.removeHashByUserAsync(user);
         const token = await verificationService.generateTokenAsync();
         await resetService.storeTokenAsync(token, user);
@@ -141,7 +146,9 @@ const accountController = {
     async validateResetCodeAsync(req: Request, res: Response): Promise<Response> {
         // grab token from request
         const { token } = req.params;
-        // validate token
+        // validate token format
+        await validationService.validateTokenAsync(token);
+        // validate token in database
         const isValid = await resetService.validateTokenAsync(token);
         // authorize password reset
         if (isValid) {
@@ -151,7 +158,7 @@ const accountController = {
     },
 
     async resetPassword(req: Request, res: Response): Promise<Response> {
-        // post data
+        // get post data
         const data: ResetData = { ...req.body };
         // validate data
         await validationService.validateResetDataAsync(data);
