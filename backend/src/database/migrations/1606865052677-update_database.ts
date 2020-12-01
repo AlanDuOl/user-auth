@@ -1,13 +1,13 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class createDatabase1606841391719 implements MigrationInterface {
-    name = 'createDatabase1606841391719'
+export class updateDatabase1606865052677 implements MigrationInterface {
+    name = 'updateDatabase1606865052677'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "role" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, CONSTRAINT "UQ_ae4578dcaed5adff96595e61660" UNIQUE ("name"))`);
         await queryRunner.query(`CREATE TABLE "verification" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_8300048608d8721aea27747b07" UNIQUE ("userId"))`);
         await queryRunner.query(`CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "email" varchar NOT NULL, "passwordHash" varchar NOT NULL, "isVerified" boolean NOT NULL, "createdAt" datetime NOT NULL, "updatedAt" datetime NOT NULL, "resetPasswordDate" datetime NOT NULL)`);
-        await queryRunner.query(`CREATE TABLE "change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "expiresValidation" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"))`);
+        await queryRunner.query(`CREATE TABLE "change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"))`);
         await queryRunner.query(`CREATE TABLE "userRoles" ("userId" integer NOT NULL, "roleId" integer NOT NULL, PRIMARY KEY ("userId", "roleId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_fdf65c16d62910b4785a18cdfc" ON "userRoles" ("userId") `);
         await queryRunner.query(`CREATE INDEX "IDX_5760f2a1066eb90b4c223c16a1" ON "userRoles" ("roleId") `);
@@ -15,8 +15,8 @@ export class createDatabase1606841391719 implements MigrationInterface {
         await queryRunner.query(`INSERT INTO "temporary_verification"("token", "expiresAt", "userId") SELECT "token", "expiresAt", "userId" FROM "verification"`);
         await queryRunner.query(`DROP TABLE "verification"`);
         await queryRunner.query(`ALTER TABLE "temporary_verification" RENAME TO "verification"`);
-        await queryRunner.query(`CREATE TABLE "temporary_change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "expiresValidation" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"), CONSTRAINT "FK_46bfee4492162a8886653c39674" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION)`);
-        await queryRunner.query(`INSERT INTO "temporary_change_password"("token", "expiresAt", "validated", "expiresValidation", "userId") SELECT "token", "expiresAt", "validated", "expiresValidation", "userId" FROM "change_password"`);
+        await queryRunner.query(`CREATE TABLE "temporary_change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"), CONSTRAINT "FK_46bfee4492162a8886653c39674" FOREIGN KEY ("userId") REFERENCES "user" ("id") ON DELETE NO ACTION ON UPDATE NO ACTION)`);
+        await queryRunner.query(`INSERT INTO "temporary_change_password"("token", "expiresAt", "validated", "userId") SELECT "token", "expiresAt", "validated", "userId" FROM "change_password"`);
         await queryRunner.query(`DROP TABLE "change_password"`);
         await queryRunner.query(`ALTER TABLE "temporary_change_password" RENAME TO "change_password"`);
         await queryRunner.query(`DROP INDEX "IDX_fdf65c16d62910b4785a18cdfc"`);
@@ -39,8 +39,8 @@ export class createDatabase1606841391719 implements MigrationInterface {
         await queryRunner.query(`CREATE INDEX "IDX_5760f2a1066eb90b4c223c16a1" ON "userRoles" ("roleId") `);
         await queryRunner.query(`CREATE INDEX "IDX_fdf65c16d62910b4785a18cdfc" ON "userRoles" ("userId") `);
         await queryRunner.query(`ALTER TABLE "change_password" RENAME TO "temporary_change_password"`);
-        await queryRunner.query(`CREATE TABLE "change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "expiresValidation" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"))`);
-        await queryRunner.query(`INSERT INTO "change_password"("token", "expiresAt", "validated", "expiresValidation", "userId") SELECT "token", "expiresAt", "validated", "expiresValidation", "userId" FROM "temporary_change_password"`);
+        await queryRunner.query(`CREATE TABLE "change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"))`);
+        await queryRunner.query(`INSERT INTO "change_password"("token", "expiresAt", "validated", "userId") SELECT "token", "expiresAt", "validated", "userId" FROM "temporary_change_password"`);
         await queryRunner.query(`DROP TABLE "temporary_change_password"`);
         await queryRunner.query(`ALTER TABLE "verification" RENAME TO "temporary_verification"`);
         await queryRunner.query(`CREATE TABLE "verification" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_8300048608d8721aea27747b07" UNIQUE ("userId"))`);
