@@ -5,6 +5,7 @@ import resetService from '../services/resetService';
 import userService from '../services/userService';
 import validationService from '../services/validationService';
 import verificationService from '../services/verificationService';
+import utils from '../utils';
 import { RegisterUser, LoginUser, ResetData } from '../viewmodels';
 
 const accountController = {
@@ -60,7 +61,7 @@ const accountController = {
         const newUser = await userService.createUserAsync(data);
 
         // create activation token
-        const activationToken = await verificationService.generateTokenAsync();
+        const activationToken = await utils.generateTokenAsync();
         // save token hash to the database
         await verificationService.storeActivationHashAsync(activationToken, newUser);
         // send verification email
@@ -115,7 +116,7 @@ const accountController = {
         const { id } = req.params;
         const user = await userService.getByIdAsync(+id);
         await verificationService.removeVerificationHashAsync(user);
-        const token = await verificationService.generateTokenAsync();
+        const token = await utils.generateTokenAsync();
         await verificationService.storeActivationHashAsync(token, user);
         await verificationService.sendVerificationEmailAsync(user.email, token, req.hostname);
         return res.status(200).json({ message: 'Email sent successfully' });
@@ -136,7 +137,7 @@ const accountController = {
         }
         // remove any token hash related to user
         await resetService.removeHashByUserAsync(user);
-        const token = await verificationService.generateTokenAsync();
+        const token = await utils.generateTokenAsync();
         await resetService.storeTokenAsync(token, user);
         await resetService.sendResetEmailAsync(user.email, token);
         return res.status(201)
