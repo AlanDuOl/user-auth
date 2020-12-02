@@ -53,6 +53,7 @@ const authService = {
         const token = authorization?.split(' ')[1];
         return token;
     },
+    
 }
 
 export default authService;

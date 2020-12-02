@@ -5,7 +5,6 @@ import 'express-async-errors';
 import './database/connection';
 import routes from './routes';
 import requestErrorHandler from './middlewares/errorHandler';
-import requestAuthHandler from './middlewares/authHandler';
 import 'reflect-metadata';
 
 const app = express();

@@ -9,33 +9,8 @@ import { RegisterUser, LoginUser, ResetData } from '../viewmodels';
 
 const accountController = {
 
-    async getAsync(req: Request, res: Response) {
-        // generate verification token
-        // const token = verificationService.generateActivationToken();
-        // const user = await userService.findByEmailAsync('alan@gmail.com');
-        // if (!!user) {
-        //     // store the token in database
-        //     await verificationService.storeActivationHashAsync(token, user);
-        //     // send email
-        //     await verificationService
-        //     .sendVerificationEmailAsync('alanduartevil@gmail.com', token, req.hostname);
-        //     res.status(200).json({ message: 'Email sent?' });
-        // }
-        // res.status(404).json({ message: 'User not found' });
-        const token = authService.getTokenFromHeader(req.header('Authorization'));
-        // if Bearer token is present, check if it is valid
-        if (!!token) {
-            try {
-                await authService.validateTokenAsync(token);
-                res.status(200).json({ message: 'Request complete' });
-            }
-            catch (err) {
-                res.status(401).json({ message: err.message });
-            }
-        }
-        else {
-            res.status(401).json({ message: 'Require authentication' });
-        }
+    async getUserAsync(req: Request, res: Response) {
+        return res.status(200).json({ message: 'Request complete' });
     },
 
     async registerAsync(req: Request, res: Response) {
