@@ -11,6 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 export class HomeComponent implements OnInit {
 
   message = new BehaviorSubject<string | null>(null);
+  userId: number;
 
   constructor(private http: HttpClient) { }
 
@@ -18,11 +19,25 @@ export class HomeComponent implements OnInit {
   }
 
   publicRequest() {
-    
+    this.http.get<any>(apiPath.publicRequest).subscribe(
+      res => {
+        this.message.next(res.message);
+      },
+      err => {
+        this.message.next(err.error.message);
+      }
+    );
   }
 
   adminRequest() {
-
+    this.http.get<any>(`${apiPath.adminRequest}/${this.userId}`).subscribe(
+      res => {
+        this.message.next(res.message);
+      },
+      err => {
+        this.message.next(err.error.message);
+      }
+    );
   }
 
   userRequest() {
@@ -33,7 +48,7 @@ export class HomeComponent implements OnInit {
       err => {
         this.message.next(err.error.message);
       }
-    )
+    );
   }
 
 }

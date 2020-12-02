@@ -10,6 +10,8 @@ export const apiPath = {
     validateCode: `${baseApiPath}/validatecode`,
     resetPassword: `${baseApiPath}/resetpassword`,
     userRequest: `${baseApiPath}/user`,
+    publicRequest: `${baseApiPath}/public`,
+    adminRequest: `${baseApiPath}/admin`,
 }
 
 export const uiPath = {
