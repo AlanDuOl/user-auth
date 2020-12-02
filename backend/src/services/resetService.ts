@@ -55,7 +55,8 @@ const resetService = {
             </p>
             <p>
                 Code: ${token}
-            </p>`
+            </p>
+            <p><strong>This code is valid for 5 minutes</strong></p>`
         }
         await smtpTransporter.sendMail(mailOptions);
     },
