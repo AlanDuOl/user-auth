@@ -2,7 +2,7 @@ import { getRepository } from 'typeorm';
 import { roleNames } from '../constants';
 import Role from '../models/role';
 import User from '../models/user';
-import { PayloadUser, RegisterUser, NewUser } from '../viewmodels';
+import { PayloadUser, RegisterUser, NewUser, CustomError } from '../viewmodels';
 import authService from './authService';
 import resetService from './resetService';
 import roleService from './roleService';
@@ -75,13 +75,18 @@ const userService = {
         const repository = getRepository(User);
         // create token hash
         const tokenHash = await verificationService.generateHashAsync(token);
-        // get ChangePassword instance
+        // get ChangePassword entity
         const changePassword = await resetService.getByIdAsync(tokenHash);
-        console.log(changePassword);
-        // change password if token entity is found
         if (!!changePassword) {
+            // get user entity
+            const user = await this.getByIdAsync(changePassword.user.id);
             // create password hash
             const passwordHash = await verificationService.generateHashAsync(password);
+            // throw error if passwords are equal
+            if (user.passwordHash === passwordHash) {
+                throw new CustomError(400, 'Password must be different than current password');
+            }
+            // change password
             await repository.update(changePassword.user.id, { passwordHash });
             return true;
         }
