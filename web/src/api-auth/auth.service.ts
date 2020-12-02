@@ -5,11 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { apiPath, logoutStatus, uiPath } from '../constants';
 import { LoginUser, AuthUser, User, ResetPassword } from '../models';
 import { Router } from '@angular/router';
-
-export interface IUser {
-  name: string,
-  roles: string[]
-}
+import { IUser } from '../models';
 
 @Injectable({
   providedIn: 'root'

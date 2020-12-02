@@ -1,5 +1,10 @@
 
 
+export interface IUser {
+    name: string,
+    roles: string[]
+}
+
 export interface User {
     name: string,
     email: string,
