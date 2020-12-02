@@ -12,8 +12,8 @@ const verificationService = {
         const hash = await utils.generateHashAsync(token);
         const verification: Verification = {
             token: hash,
-            // add 2 hours
-            expiresAt: new Date(utils.getCurrentTime() + 3600000 * 2),
+            // wrong date. Date.now is returning Europe timezone
+            expiresAt: new Date(Date.now() + 3600000 * 2),
             user
         }
         const userVerification = repository.create(verification);
