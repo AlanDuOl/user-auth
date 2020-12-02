@@ -12,7 +12,6 @@ const validationService = {
             confirmPassword: Yup.string().required().max(8).min(6)
                 .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
         });
-        
         // validate form data
         await schema.validate(data, { abortEarly: false });
     },
@@ -23,7 +22,6 @@ const validationService = {
             email: Yup.string().email().required().max(100),
             password: Yup.string().required().min(6).max(8),
         });
-
         // validate form data
         await schema.validate(data, { abortEarly: false });
     },
@@ -37,7 +35,6 @@ const validationService = {
                 .matches(/\d+/).matches(/[A-Z]+/).matches(/[a-z]+/).matches(/\W+/),
             token: Yup.string().required().min(10)
         });
-        
         // validate form data
         await schema.validate(data, { abortEarly: false });
     },
@@ -47,7 +44,6 @@ const validationService = {
         const schema = Yup.object().shape({
             email: Yup.string().email().required()
         });
-        
         // validate form data
         await schema.validate({ email }, { abortEarly: false });
     },
@@ -57,9 +53,17 @@ const validationService = {
         const schema = Yup.object().shape({
             token: Yup.string().required().min(10)
         });
-        
         // validate form data
         await schema.validate({ token }, { abortEarly: false });
+    },
+
+    async validateIdAsync(id: number): Promise<void> {
+        // define structure of object to be validated
+        const schema = Yup.object().shape({
+            id: Yup.number().required()
+        });
+        // validate form data
+        await schema.validate({ id }, { abortEarly: false });
     },
 
 }
