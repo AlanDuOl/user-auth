@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import User from '../models/user';
 import authService from '../services/authService';
 import resetService from '../services/resetService';
 import userService from '../services/userService';
@@ -87,7 +86,7 @@ const accountController = {
 
         // check if user account is verified
         if (!userFromDb.isVerified) {
-            return res.status(400).json({ message: "Account not verified", id: userFromDb.id });
+            return res.status(400).json({ message: "Account not verified" });
         }
 
         // validate password
