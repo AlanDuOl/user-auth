@@ -10,6 +10,10 @@ const accountController = {
         return res.status(200).json({ message: 'User request complete' });
     },
 
+    async getAdminAsync(req: Request, res: Response) {
+        return res.status(200).json({ message: 'Admin request complete' });
+    },
+
 }
 
 export default accountController;
