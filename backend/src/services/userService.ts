@@ -18,11 +18,14 @@ const userService = {
 
     async findRolesAsync(id: number): Promise<string[]> {
         const userRepository = getRepository(User);
-        const user = await userRepository.find({
+        let roles: string[] = [];
+        const user = await userRepository.findOne({
             relations: ['roles'],
             where: { id }
         })
-        const roles = user[0].roles.map(role => role.name);
+        if (!!user) {
+            roles = user.roles.map(role => role.name);
+        }
         return roles;
     },
 
