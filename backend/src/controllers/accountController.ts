@@ -124,7 +124,7 @@ const accountController = {
 
     async sendResetCodeAsync(req: Request, res: Response): Promise<Response> {
         // grab request data
-        const { email } = req.body;
+        const { email } = req.params;
         // validate email
         await validationService.validateEmailAsync(email);
         // find user with email
