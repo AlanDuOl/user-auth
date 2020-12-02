@@ -54,7 +54,8 @@ const verificationService = {
         // if verification entity is found, check if it has not expired
         if (!!verification) {
             const tokenDate = Date.parse(verification.expiresAt.toUTCString());
-            if (tokenDate > Date.now()) {
+            const currentTime = utils.getCurrentTime();
+            if (tokenDate > currentTime) {
                 // if verification has not expired, activate user account and delete the
                 // verification entity
                 await userService.activateAsync(verification.user.id);
