@@ -168,14 +168,15 @@ const accountController = {
         }
         // validate changePassword instance
         const allowChange = await resetService.allowPasswordChange(data.token);
-        // remove reset token hash
-        await resetService.removeHashByTokenAsync(data.token);
         // check if change is allowed
         if (allowChange) {
             // change password
             const passwordReset = await userService.resetPassword(data.password, data.token);
-            // if change is successful return ok response, otherwise return not found response
+            // if change is successful remove the tokenHash and return ok response,
+            // otherwise return not found
             if (passwordReset) {
+                // remove reset token hash
+                await resetService.removeHashByTokenAsync(data.token);
                 return res.status(200).json({ message: 'Password reset successfuly' });
             }
             // not found because the only way to return false is if ChangePassword entity is not found
