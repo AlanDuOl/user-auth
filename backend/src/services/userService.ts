@@ -73,12 +73,15 @@ const userService = {
 
     async resetPassword(password: string, token: string): Promise<boolean> {
         const repository = getRepository(User);
+        // create token hash
+        const tokenHash = await verificationService.generateHashAsync(token);
         // get ChangePassword instance
-        const changePassword = await resetService.getByIdAsync(token);
-        // create password hash
-        const passwordHash = await verificationService.generateHashAsync(password);
+        const changePassword = await resetService.getByIdAsync(tokenHash);
+        console.log(changePassword);
         // change password if token entity is found
         if (!!changePassword) {
+            // create password hash
+            const passwordHash = await verificationService.generateHashAsync(password);
             await repository.update(changePassword.user.id, { passwordHash });
             return true;
         }
