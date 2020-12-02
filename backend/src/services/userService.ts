@@ -18,7 +18,7 @@ const userService = {
 
     async findRolesAsync(id: number): Promise<string[]> {
         const userRepository = getRepository(User);
-        const user = await userRepository.find({ 
+        const user = await userRepository.find({
             relations: ['roles'],
             where: { id }
         })
@@ -71,7 +71,7 @@ const userService = {
         await repository.update(userId, { isVerified: true });
     },
 
-    async resetPassword(password: string, token: string): Promise<boolean> {
+    async resetPassword(newPassword: string, token: string): Promise<boolean> {
         const repository = getRepository(User);
         // create token hash
         const tokenHash = await utils.generateHashAsync(token);
@@ -80,14 +80,16 @@ const userService = {
         if (!!changePassword) {
             // get user entity
             const user = await this.getByIdAsync(changePassword.user.id);
-            // create password hash
-            const newPasswordHash = await authService.hashPasswordAsync(password);
             // throw error if passwords are equal
-            if (user.passwordHash === newPasswordHash) {
-                throw new CustomError(400, 'Password must be different than current password');
+            const isEqualCurrentPassword = await authService
+                .validatePasswordAsync(newPassword, user.passwordHash)
+            if (isEqualCurrentPassword) {
+                throw new CustomError(400, 'New password must be different than current password');
             }
+            // create password hash
+            const newPasswordHash = await authService.hashPasswordAsync(newPassword);
             // change password
-            await repository.update(changePassword.user.id, { 
+            await repository.update(changePassword.user.id, {
                 passwordHash: newPasswordHash,
                 resetPasswordDate: new Date(utils.getCurrentTime())
             });
