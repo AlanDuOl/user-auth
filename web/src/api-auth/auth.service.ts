@@ -6,7 +6,7 @@ import { apiPath, logoutStatus, uiPath } from '../constants';
 import { LoginUser, AuthUser, User, ResetPassword } from '../models';
 import { Router } from '@angular/router';
 
-interface IUser {
+export interface IUser {
   name: string,
   roles: string[]
 }
