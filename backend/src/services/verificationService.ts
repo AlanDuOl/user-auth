@@ -1,41 +1,15 @@
-import crypto from 'crypto';
-import nodemailer from 'nodemailer';
 import { getRepository } from 'typeorm';
 import Verification from '../models/verification';
 import userService from './userService';
 import User from '../models/user';
-import Mail from 'nodemailer/lib/mailer';
+import utils from '../utils';
 
 
 const verificationService = {
 
-    async generateTokenAsync(): Promise<string> {
-        return new Promise((resolve, reject) => {
-            try {
-                const token = crypto.randomBytes(16).toString('hex');
-                resolve(token);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    },
-
-    async generateHashAsync(token: string): Promise<string> {
-        return new Promise((resolve, reject) => {
-            try {
-                const hash = crypto.createHash('sha256');
-                hash.update(token);
-                const finalHash = hash.digest('hex');
-                resolve(finalHash);
-            } catch (error) {
-                reject(error);
-            }
-        });
-    },
-
     async storeActivationHashAsync(token: string, user: User): Promise<void> {
         const repository = getRepository(Verification);
-        const hash = await this.generateHashAsync(token);
+        const hash = await utils.generateHashAsync(token);
         const verification: Verification = {
             token: hash,
             // wrong date. Date.now is returning Europe timezone
@@ -55,7 +29,7 @@ const verificationService = {
     },
 
     async sendVerificationEmailAsync(email: string, token: string, host: string): Promise<void> {
-        const smtpTransporter = await this.getSMTPTransporter();
+        const smtpTransporter = await utils.getSMTPTransporter();
         const link = `http://${host}:4200/verify?token=${token}`;
         const mailOptions = {
             from: 'from_auth-user@mail.com',
@@ -68,23 +42,10 @@ const verificationService = {
         await smtpTransporter.sendMail(mailOptions);
     },
 
-    async getSMTPTransporter(): Promise<Mail> {
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.ethereal.email',
-            port: 587,
-            auth: {
-                user: 'margarete.prohaska19@ethereal.email',
-                pass: 'FydbZTKHQvV8DnTFbc'
-            }
-        });
-        await transporter.verify();
-        return transporter;
-    },
-
     async verifyAccount(token: string): Promise<boolean> {
         const repository = getRepository(Verification);
         // create a hash with the token
-        const hash = await this.generateHashAsync(token);
+        const hash = await utils.generateHashAsync(token);
         // look for the hash in the database
         const verification = await repository.findOne({ token: hash }, { relations: ['user'] });
         // if verification entity is found, check if it has not expired

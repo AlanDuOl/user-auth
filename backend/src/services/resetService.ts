@@ -2,13 +2,13 @@ import { getRepository } from 'typeorm';
 import { ChangePassword } from '../models/changePassword';
 import User from '../models/user';
 import utils from '../utils';
-import verificationService from './verificationService';
+
 
 const resetService = {
 
     async storeTokenAsync(token: string, user: User): Promise<void> {
         const repository = getRepository(ChangePassword);
-        const hash = await verificationService.generateHashAsync(token);
+        const hash = await utils.generateHashAsync(token);
         const changePassword: ChangePassword = {
             token: hash,
             // add 5min
@@ -35,7 +35,7 @@ const resetService = {
 
     async removeHashByTokenAsync(token: string): Promise<void> {
         const repository = getRepository(ChangePassword);
-        const tokenHash = await verificationService.generateHashAsync(token);
+        const tokenHash = await utils.generateHashAsync(token);
         const changePassword = await repository.findOne(tokenHash);
         if (!!changePassword) {
             await repository.remove(changePassword);
@@ -43,7 +43,7 @@ const resetService = {
     },
 
     async sendResetEmailAsync(email: string, token: string): Promise<void> {
-        const smtpTransporter = await verificationService.getSMTPTransporter();
+        const smtpTransporter = await utils.getSMTPTransporter();
         const mailOptions = {
             from: 'from_auth-user@mail.com',
             to: email,
@@ -63,7 +63,7 @@ const resetService = {
     async validateTokenAsync(token: string): Promise<boolean> {
         const repository = getRepository(ChangePassword);
         // generate a hash with the token
-        const tokenHash = await verificationService.generateHashAsync(token);
+        const tokenHash = await utils.generateHashAsync(token);
         // look for the hash in the database
         const changePassword = await repository.findOne(tokenHash);
         if (!!changePassword) {
@@ -86,7 +86,7 @@ const resetService = {
     async allowPasswordChange(token: string): Promise<boolean> {
         const repository = getRepository(ChangePassword);
         // create token hash
-        const tokenHash = await verificationService.generateHashAsync(token);
+        const tokenHash = await utils.generateHashAsync(token);
         // grab changePassword instance
         const entity = await repository.findOne(tokenHash);
         if (!!entity) {

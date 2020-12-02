@@ -23,7 +23,7 @@ const requestErrorHandler: ErrorRequestHandler = (error, request, response, next
         return response.status(error.status).json({ message: error.message });
     }
     else if (error instanceof jwt.JsonWebTokenError) {
-        return response.status(401).json({ message: 'Unauthorized' });
+        return response.status(401).json({ message: error.message });
     }
     return response.status(500).json({ message: 'Internal server error', error });
 }
