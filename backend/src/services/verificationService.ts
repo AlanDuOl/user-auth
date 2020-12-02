@@ -22,7 +22,10 @@ const verificationService = {
 
     async removeVerificationHashAsync(user: User): Promise<void> {
         const repository = getRepository(Verification);
-        const verification = await repository.find({ user });
+        const verification = await repository.findOne({
+            relations: ['user'],
+            where: { user }
+        });
         if (!!verification) {
             await repository.remove(verification);
         }
