@@ -22,7 +22,7 @@ const authService = {
             id: user.id,
             name: user.name,
             roles: user.roles,
-            exp: Math.floor(Date.now() / 1000) + 60 * 1
+            exp: Math.floor(Date.now() / 1000) + 60 * 5
         }
         return new Promise((resolve, reject) => {
             try {
