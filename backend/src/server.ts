@@ -2,7 +2,6 @@ import express from 'express';
 import cors from 'cors';
 // this must be imported before routes
 import 'express-async-errors';
-
 import './database/connection';
 import routes from './routes';
 import requestErrorHandler from './middlewares/errorHandler';

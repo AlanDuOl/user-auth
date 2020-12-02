@@ -2,7 +2,6 @@ import nodemailer from 'nodemailer';
 import Mail from 'nodemailer/lib/mailer';
 import crypto from 'crypto';
 
-
 const utils = {
 
     getCurrentTime(): number {
