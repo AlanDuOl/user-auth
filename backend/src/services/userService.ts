@@ -81,15 +81,15 @@ const userService = {
             // get user entity
             const user = await this.getByIdAsync(changePassword.user.id);
             // create password hash
-            const passwordHash = await authService.hashPasswordAsync(password);
+            const newPasswordHash = await authService.hashPasswordAsync(password);
             // throw error if passwords are equal
-            if (user.passwordHash === passwordHash) {
+            if (user.passwordHash === newPasswordHash) {
                 throw new CustomError(400, 'Password must be different than current password');
             }
             // change password
             await repository.update(changePassword.user.id, { 
-                passwordHash,
-                resetPasswordDate: utils.getCurrentTime()
+                passwordHash: newPasswordHash,
+                resetPasswordDate: new Date(utils.getCurrentTime())
             });
             return true;
         }
