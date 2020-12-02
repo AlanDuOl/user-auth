@@ -86,7 +86,8 @@ const accountController = {
 
         // check if user account is verified
         if (!userFromDb.isVerified) {
-            return res.status(400).json({ message: "Account not verified" });
+            // id is to show send verification in login component
+            return res.status(400).json({ message: "Account not verified", id: userFromDb.id });
         }
 
         // validate password
