@@ -38,9 +38,10 @@ const verificationService = {
             from: 'from_auth-user@mail.com',
             to: email,
             subject: 'Please confirm your Email account',
-            html: `Hello,
-            <br> Please Click on the link to verify your email.
-            <br><a href="${link}" target="_blank">Click here to verify</a>`
+            html: `<p>Hello,</p>
+            <p> Please Click on the link to verify your email.</p>
+            <p>Verify your account: <a href="${link}" target="_blank">Click here to verify</a></p>
+            <p><strong>This link is valid for 2 hours</strong></p>`
         }
         await smtpTransporter.sendMail(mailOptions);
     },
