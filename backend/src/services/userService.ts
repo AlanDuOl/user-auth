@@ -87,7 +87,10 @@ const userService = {
                 throw new CustomError(400, 'Password must be different than current password');
             }
             // change password
-            await repository.update(changePassword.user.id, { passwordHash });
+            await repository.update(changePassword.user.id, { 
+                passwordHash,
+                resetPasswordDate: utils.getCurrentTime()
+            });
             return true;
         }
         // return false on entity not found
