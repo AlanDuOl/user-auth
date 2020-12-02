@@ -9,7 +9,7 @@ export const apiPath = {
     sendCode: `${baseApiPath}/sendcode`,
     validateCode: `${baseApiPath}/validatecode`,
     resetPassword: `${baseApiPath}/resetpassword`,
-    get: baseApiPath,
+    userRequest: `${baseApiPath}/user`,
 }
 
 export const uiPath = {

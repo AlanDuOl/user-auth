@@ -18,10 +18,7 @@ export class HomeComponent implements OnInit {
   }
 
   publicRequest() {
-    this.http.get(apiPath.get).subscribe(
-      res => console.log(res),
-      err => console.log(err),
-    )
+    
   }
 
   adminRequest() {
@@ -29,7 +26,14 @@ export class HomeComponent implements OnInit {
   }
 
   userRequest() {
-
+    this.http.get<any>(apiPath.userRequest).subscribe(
+      res => {
+        this.message.next(res.message);
+      },
+      err => {
+        this.message.next(err.error.message);
+      }
+    )
   }
 
 }
