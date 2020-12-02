@@ -94,19 +94,17 @@ const resetService = {
             const dateCheck = Date.parse(entity.expiresAt.toUTCString());
             const currentTime = utils.getCurrentTime();
             if (dateCheck > currentTime && entity.validated) {
-                // remove entity instance from DB and return true
-                await repository.remove(entity);
                 return true;
             }
         }
         return false;
     },
 
-    async getByIdAsync(token: string): Promise<ChangePassword | undefined> {
+    async getByIdAsync(tokenHash: string): Promise<ChangePassword | undefined> {
         const repository = getRepository(ChangePassword);
         const entity = await repository.findOne({
             relations: ['user'],
-            where: { token }
+            where: { token: tokenHash }
         });
         return entity;
     }
