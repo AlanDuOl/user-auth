@@ -10,7 +10,7 @@ import { RegisterUser, LoginUser, ResetData } from '../viewmodels';
 const accountController = {
 
     async getUserAsync(req: Request, res: Response) {
-        return res.status(200).json({ message: 'Request complete' });
+        return res.status(200).json({ message: 'User request complete' });
     },
 
     async registerAsync(req: Request, res: Response) {

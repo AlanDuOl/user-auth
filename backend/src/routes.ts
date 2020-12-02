@@ -8,7 +8,7 @@ routes.get('/verify/:token', accountController.verifyAsync);
 routes.get('/sendemail/:id', accountController.sendVerificationAsync);
 routes.get('/validatecode/:token', accountController.validateResetCodeAsync);
 routes.get('/sendcode/:email', accountController.sendResetCodeAsync);
-routes.use(authenticationHandler).get('/user', accountController.getUserAsync);
+routes.get('/user', authenticationHandler, accountController.getUserAsync);
 routes.post('/resetpassword', accountController.resetPassword);
 routes.post('/register', accountController.registerAsync);
 routes.post('/login', accountController.loginAsync);

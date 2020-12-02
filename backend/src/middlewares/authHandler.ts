@@ -12,8 +12,13 @@ const authenticationHandler: RequestHandler = async (req: Request, res: Response
             // if token is valid, proceed to route handler
             next();
         }
+        else {
+            return res.status(401).json({});
+        }
     }
-    return res.status(401).json({ message: 'Require authentication' });
+    else {
+        return res.status(401).json({});
+    }
 }
 
 export default authenticationHandler;
