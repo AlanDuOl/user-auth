@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { apiPath } from '../../constants';
-
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { RegisterFeedbackComponent } from '../../bootstrap/register-feedback/register-feedback.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -12,20 +10,26 @@ import { RegisterFeedbackComponent } from '../../bootstrap/register-feedback/reg
 })
 export class HomeComponent implements OnInit {
 
-  constructor(private http: HttpClient, private modal: NgbModal) { }
+  message = new BehaviorSubject<string | null>(null);
+
+  constructor(private http: HttpClient) { }
 
   ngOnInit(): void {
   }
 
-  fakeRequest() {
+  publicRequest() {
     this.http.get(apiPath.get).subscribe(
       res => console.log(res),
       err => console.log(err),
     )
   }
 
-  openModal() {
-    const modalRef = this.modal.open(RegisterFeedbackComponent);
+  adminRequest() {
+
+  }
+
+  userRequest() {
+
   }
 
 }
