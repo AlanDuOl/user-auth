@@ -15,6 +15,7 @@ export interface User {
 export interface LoginUser {
     email: string,
     password: string,
+    keepLogged: boolean
 }
 
 export interface AuthUser {
