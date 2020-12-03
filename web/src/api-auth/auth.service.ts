@@ -62,13 +62,13 @@ export class AuthService {
     return this.http.post<AuthUser>(apiPath.login, user);
   }
 
-  login(user: LoginUser, keepLogged: boolean): Promise<void> {
+  login(user: LoginUser): Promise<void> {
     return new Promise((resolve, reject) => {
       this.authenticate(user).subscribe(
         res => {
           // if user wants to stay logged, save it to localStorage
           // otherwise save it to sessionStorage
-          if (keepLogged) {
+          if (user.keepLogged) {
             localStorage.setItem('user', JSON.stringify(res));
           }
           else {
