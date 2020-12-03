@@ -1,11 +1,17 @@
 import { Component } from '@angular/core';
 import { ActivatedRouteSnapshot, convertToParamMap, UrlSegment } from '@angular/router';
 import { of } from 'rxjs';
+import { IUser } from './models';
 
 @Component({
     selector: 'mock-component'
 })
 export class MockComponent { }
+
+export const mockUser: IUser = {
+    name: 'test user',
+    roles: ['User', 'Admin']
+}
 
 export const mockRouteSnapshot: ActivatedRouteSnapshot = {
     url: [

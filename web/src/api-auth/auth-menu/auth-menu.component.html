@@ -1,5 +1,5 @@
-<a *ngIf="!(isAutheticated | async)" routerLink="/login">Login</a>
-<div *ngIf="isAutheticated | async">
-    <span>Hello, {{userName | async | titlecase}}</span>
-    <a routerLink="/logout">Logout</a>
+<a class="login-link" *ngIf="!(isAutheticated | async)" routerLink="/login">Login</a>
+<div class="auth-info" *ngIf="isAutheticated | async">
+    <span class="user-name">Hello, {{userName | async | titlecase}}</span>
+    <a class="logout-link" routerLink="/logout">Logout</a>
 </div>
