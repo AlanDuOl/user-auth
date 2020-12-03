@@ -48,22 +48,22 @@ export class LoginComponent implements OnInit {
 
   async handleSubmit(): Promise<void> {
     if (this.form.valid) {
-      this.startSubmmit = true;
-      const user = this.getLoginData();
       try {
+        this.startSubmmit = true;
+        const user = this.getLoginData();
         // put loader while async operation is running
         this.isLoading = true;
-        await this.auth.login(user, this.form.get('keepLogged').value);
-        // remove loader when asycn operation is finished
+        await this.auth.login(user);
+        // remove loader when async operation is finished
         this.isLoading = false;
       } catch (err) {
         this.startSubmmit = false;
-        this.response.next({ 
+        this.response.next({
           message: err.error.message,
           id: err.error.id ? err.error.id : null,
           type: FeedBackType.error,
         });
-        // remove loader when asycn operation is finished
+        // remove loader when async operation is finished
         this.isLoading = false;
       }
     }
@@ -73,6 +73,7 @@ export class LoginComponent implements OnInit {
     const user: LoginUser = {
       email: this.form.get('email').value,
       password: this.form.get('password').value,
+      keepLogged: !!this.form.get('keepLogged').value
     }
     return user;
   }
@@ -88,7 +89,7 @@ export class LoginComponent implements OnInit {
             id: undefined,
             type: FeedBackType.success,
           });
-          // remove loader when asycn operation is finished
+          // remove loader when async operation is finished
           this.isLoading = false;
         },
         err => {
@@ -97,7 +98,7 @@ export class LoginComponent implements OnInit {
             id: undefined,
             type: FeedBackType.error,
           });
-          // remove loader when asycn operation is finished
+          // remove loader when async operation is finished
           this.isLoading = false;
         }
       )
