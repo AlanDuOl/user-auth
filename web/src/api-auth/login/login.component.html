@@ -1,4 +1,4 @@
-<section class="app-login" *ngIf="!pageLoading; else loader">
+<section class="app-login" *ngIf="!isLoading; else loader">
     <h3>Login</h3>
     <div id="error-container" *ngIf="response | async as res">
         <p id="msg-{{res.type}}">{{res.message}}</p>

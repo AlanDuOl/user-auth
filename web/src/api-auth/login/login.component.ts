@@ -24,7 +24,7 @@ export class LoginComponent implements OnInit {
     keepLogged: new FormControl('')
   });
   startSubmmit = false;
-  pageLoading = false;
+  isLoading = false;
   response: BehaviorSubject<ResponseFeedback | null> = new BehaviorSubject(null);
 
   constructor(private auth: AuthService, private dialog: DialogService) { }
@@ -52,10 +52,10 @@ export class LoginComponent implements OnInit {
       const user = this.getLoginData();
       try {
         // put loader while async operation is running
-        this.pageLoading = true;
+        this.isLoading = true;
         await this.auth.login(user, this.form.get('keepLogged').value);
         // remove loader when asycn operation is finished
-        this.pageLoading = false;
+        this.isLoading = false;
       } catch (err) {
         this.startSubmmit = false;
         this.response.next({ 
@@ -64,7 +64,7 @@ export class LoginComponent implements OnInit {
           type: FeedBackType.error,
         });
         // remove loader when asycn operation is finished
-        this.pageLoading = false;
+        this.isLoading = false;
       }
     }
   }
@@ -80,7 +80,7 @@ export class LoginComponent implements OnInit {
   requestVerificationEmail(userId: number): void {
     if (!!userId) {
       // put loader while async operation is running
-      this.pageLoading = true;
+      this.isLoading = true;
       this.auth.requestVerificationEmail(userId).subscribe(
         res => {
           this.response.next({
@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit {
             type: FeedBackType.success,
           });
           // remove loader when asycn operation is finished
-          this.pageLoading = false;
+          this.isLoading = false;
         },
         err => {
           this.response.next({
@@ -98,7 +98,7 @@ export class LoginComponent implements OnInit {
             type: FeedBackType.error,
           });
           // remove loader when asycn operation is finished
-          this.pageLoading = false;
+          this.isLoading = false;
         }
       )
     }
