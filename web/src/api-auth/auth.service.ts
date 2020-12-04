@@ -31,10 +31,9 @@ export class AuthService {
       if (!!result) {
         return true;
       }
-    }
-    else {
       return false;
     }
+    return false;
   }
 
   getUser(): Observable<IUser> {
