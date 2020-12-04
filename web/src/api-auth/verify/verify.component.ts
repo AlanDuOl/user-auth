@@ -11,13 +11,14 @@ import { AuthService } from '../auth.service';
 export class VerifyComponent implements OnInit {
 
   message: BehaviorSubject<string | null> = new BehaviorSubject(null);
+  token: string;
 
   constructor(private activatedRoute: ActivatedRoute, private auth: AuthService) { }
 
   ngOnInit(): void {
-    const token = this.activatedRoute.snapshot.queryParamMap.get('token');
-    if (!!token) {
-      this.auth.sendVerification(token).subscribe(
+    this.token = this.activatedRoute.snapshot.queryParamMap.get('token');
+    if (!!this.token) {
+      this.auth.sendVerification(this.token).subscribe(
         res => {
           this.message.next(res.message);
         },

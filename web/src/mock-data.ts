@@ -18,8 +18,29 @@ export const mockRouteSnapshot: ActivatedRouteSnapshot = {
         new UrlSegment('logout', { name: 'logout' }),
         new UrlSegment('logout', { name: 'logout' })
     ],
-    paramMap: convertToParamMap(of({ id: 1 })),
-    queryParamMap: convertToParamMap(of({})),
+    paramMap: convertToParamMap({ id: 1 }),
+    queryParamMap: convertToParamMap({ token: 'abd23f/sdf12d' }),
+    queryParams: {},
+    routeConfig: {},
+    params: {},
+    data: {},
+    component: '',
+    fragment: '',
+    outlet: '',
+    parent: null,
+    root: null,
+    firstChild: null,
+    children: null,
+    pathFromRoot: null
+}
+
+export const mockRouteSnapshotFail: ActivatedRouteSnapshot = {
+    url: [
+        new UrlSegment('logout', { name: 'logout' }),
+        new UrlSegment('logout', { name: 'logout' })
+    ],
+    paramMap: convertToParamMap({}),
+    queryParamMap: convertToParamMap({}),
     queryParams: {},
     routeConfig: {},
     params: {},
