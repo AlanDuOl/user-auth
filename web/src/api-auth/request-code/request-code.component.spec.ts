@@ -215,7 +215,7 @@ describe('RequestCodeComponent', () => {
     spyOn(component, 'requestCode').and.callThrough();
     // simulate a submit event
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-    // assert for handleSubmit call
+    // assert for requestCode call
     expect(component.requestCode).toHaveBeenCalled();
   });
 });

@@ -240,11 +240,11 @@ describe('ResetPasswordComponent', () => {
     expect(loader).toBeNull();
   });
 
-  it('form submit should call #requestCode', () => {
+  it('form submit should call #resetPassword', () => {
     spyOn(component, 'resetPassword').and.callThrough();
     // simulate a submit event
     fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
-    // assert for handleSubmit call
+    // assert for resetPassword call
     expect(component.resetPassword).toHaveBeenCalled();
   });
 
