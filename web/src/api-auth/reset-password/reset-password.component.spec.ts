@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 import { of, throwError } from 'rxjs';
 import { uiPath } from 'src/constants';
 import { delay, tap } from 'rxjs/operators';
+import { By } from '@angular/platform-browser';
 
 
 describe('ResetPasswordComponent', () => {
@@ -84,7 +85,7 @@ describe('ResetPasswordComponent', () => {
     expect(component.isLoading).toBe(false);
   });
 
-  it('#isLoading should be true while request does not complete', fakeAsync(() => {
+  it('#isLoading should be true while request does not complete (success)', fakeAsync(() => {
     // set form data to valid and equal values
     component.form.get('password').setValue('Ab12/3');
     component.form.get('confirmPassword').setValue('Ab12/3');
@@ -94,24 +95,46 @@ describe('ResetPasswordComponent', () => {
 
     // define async request
     spyOn(auth, 'resetPassword').and.returnValue(of({ message: 'test request' }).pipe(
-      tap(() => {
-        // assert for #isLoading to be true before the request end
-        expect(component.isLoading).toBe(true)
-      }),
-      // set request to wait 2 seconds to return
-      delay(2000)
+      // set request to wait 0.5 seconds to return
+      delay(500)
     ));
     // run delayed request
     component.resetPassword();
+    // assert for #isLoading to be true before the request end
+    expect(component.isLoading).toBe(true)
     // simulate delay of 2 seconds
-    tick(2000);
+    tick(500);
+    // #isLoading should be false after the request completes
+    expect(component.isLoading).toBe(false);
+  }));
+
+  it('#isLoading should be true while request does not complete (error)', fakeAsync(() => {
+    const mockError = {
+      error: {
+        message: 'Test message'
+      }
+    }
+    // make form control valid to allow #isLoading reasignment
+    component.form.get('password').setValue('Ab12/3');
+    component.form.get('confirmPassword').setValue('Ab12/3');
+    // define async request
+    spyOn(auth, 'resetPassword').and.returnValue(of(mockError).pipe(
+      delay(500),
+      tap(err => { throw err })
+    ));
+    // run delayed request
+    component.resetPassword();
+    // #isLoading should be true before async completes
+    expect(component.isLoading).toBe(true);
+    // complete async
+    tick(500);
     // #isLoading should be false after the request completes
     expect(component.isLoading).toBe(false);
   }));
 
   it('should show error message message for different passwords', () => {
     const expectedMessage = 'Passwords are different';
-    // set different passwords
+    // set valid form with different passwords
     component.form.get('password').setValue('Ab12/3');
     component.form.get('confirmPassword').setValue('Ab12/4');
     // call resetPassword
@@ -127,7 +150,7 @@ describe('ResetPasswordComponent', () => {
     )
   });
 
-  it('#resetPassword should redirect to login', () => {
+  it('#resetPassword should redirect to login on request success', () => {
     const expectedRoute = [uiPath.login];
     // resetId is valid by default
     // set form data to valid and equal values
@@ -137,24 +160,9 @@ describe('ResetPasswordComponent', () => {
     component.resetPassword();
     // assert for navigate call
     expect(router.navigate).toHaveBeenCalledWith(expectedRoute);
-    expect(component.isLoading).toBe(false);
   });
 
-  it('#message null should not render error-text element', fakeAsync(() => {
-    // arrenge
-    let el: HTMLElement;
-    // set message to null
-    component.message.next(null);
-    // update template
-    fixture.detectChanges();
-    tick();
-    // search element in template
-    el = document.querySelector('.error-text');
-    // assert
-    expect(el).toBe(null);
-  }));
-
-  it('#resetPassword should show error message and set isLoading to false', () => {
+  it('#resetPassword should show error message on request error', () => {
     // set request to return error
     const mockError = { error: { message: 'Test error' } };
     spyOn(auth, 'resetPassword').and.returnValue(throwError(mockError));
@@ -176,6 +184,20 @@ describe('ResetPasswordComponent', () => {
       }
     )
   });
+
+  it('#message null should not render error-text element', fakeAsync(() => {
+    // arrenge
+    let el: HTMLElement;
+    // set message to null
+    component.message.next(null);
+    // update template
+    fixture.detectChanges();
+    tick();
+    // search element in template
+    el = document.querySelector('.error-text');
+    // assert
+    expect(el).toBe(null);
+  }));
 
   it('#message should load in template', () => {
     let el: HTMLElement;
@@ -216,6 +238,26 @@ describe('ResetPasswordComponent', () => {
     // assert
     expect(el).not.toBeNull();
     expect(loader).toBeNull();
+  });
+
+  it('form submit should call #requestCode', () => {
+    spyOn(component, 'resetPassword').and.callThrough();
+    // simulate a submit event
+    fixture.debugElement.query(By.css('form')).triggerEventHandler('ngSubmit', null);
+    // assert for handleSubmit call
+    expect(component.resetPassword).toHaveBeenCalled();
+  });
+
+  it('password input should have a formControlName property', () => {
+    const attrValue = 'password';
+    const el = document.querySelector(`input[formControlName=${attrValue}]`);
+    expect(el.getAttribute('formControlName')).toBe(attrValue);
+  });
+
+  it('confirmPassword input should have a formControlName property', () => {
+    const attrValue = 'confirmPassword';
+    const el = document.querySelector(`input[formControlName=${attrValue}]`);
+    expect(el.getAttribute('formControlName')).toBe(attrValue);
   });
 
 });
