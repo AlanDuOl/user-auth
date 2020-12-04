@@ -61,6 +61,7 @@ describe('LoginComponent', () => {
     // assert
     resultObservable.subscribe(
       res => {
+        expect(component.form.pristine).toBe(true);
         expect(res).toBe(true);
       },
       () => {

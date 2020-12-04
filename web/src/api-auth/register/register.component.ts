@@ -67,10 +67,10 @@ export class RegisterComponent implements OnInit {
   handleSubmit(): void {
     // proceed if form data is valid
     if (this.form.valid) {
-      // allow navigation without canDeactivate pop-up
-      this.startSubmmit = true;
       // check if passwords are equal
       if (passwordsEqual(this.form)) {
+        // allow navigation without canDeactivate pop-up
+        this.startSubmmit = true;
         // get form data in correct format
         const user = this.getRegisterData();
         // set page loader to wait async operation
