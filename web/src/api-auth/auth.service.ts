@@ -24,7 +24,7 @@ export class AuthService {
     return this.user.pipe(take(1), map(user => this.checkRole(user, requiredRole)))
   }
 
-  checkRole(user: IUser, requiredRole: string): boolean {
+  private checkRole(user: IUser, requiredRole: string): boolean {
     // if user is valid, check if it has the required role
     if (!!user) {
       const result = user.roles.find(uRole => uRole === requiredRole);
@@ -41,7 +41,10 @@ export class AuthService {
     return concat(
       // the take() operator completes the BehaviorSubject when user does not pass the filter
       this.user.pipe(take(1), filter(u => !!u)),
-      this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.user.next(u))),
+      this.getUserFromStorage().pipe(filter(u => !!u), tap(u => this.user.next({
+        name: u.name,
+        roles: u.roles
+      }))),
       this.user.asObservable()
     );
   }
