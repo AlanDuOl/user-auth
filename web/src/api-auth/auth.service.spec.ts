@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { Observable, of, throwError } from 'rxjs';
-import { AuthUser, IUser, LoginUser, ResetPassword, User } from 'src/models';
+import { IUser, LoginUser, ResetPassword, User } from 'src/models';
 import { AuthService } from './auth.service';
 import { mockAuthUser, mockError } from '../mock-data';
 import { apiPath, logoutStatus, uiPath } from 'src/constants';

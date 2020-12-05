@@ -36,9 +36,11 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       // redirect to login when token is invalid or user is unauthorized
       tap(
-        () => { },
+        () => { 
+        },
         (err: HttpErrorResponse) => {
           if (err.status === 401 && err.error.message === 'jwt expired') {
+            // remove user from storage and auth
             this.auth.resetUser();
             this.router.navigate([`/${uiPath.login}`]);
           }
