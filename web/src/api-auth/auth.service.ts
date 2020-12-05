@@ -128,4 +128,5 @@ export class AuthService {
   resetPassword(passwords: ResetPassword): Observable<any> {
     return this.http.post<any>(`${apiPath.resetPassword}`, passwords)
   }
+  
 }

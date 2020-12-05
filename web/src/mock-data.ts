@@ -13,6 +13,10 @@ export const mockUser: IUser = {
     roles: ['User', 'Admin']
 }
 
+export const mockError = {
+    error: { message: 'error message'}
+}
+
 export const mockAuthUser: AuthUser = {
     id: 1,
     name: 'mockuser',
