@@ -30,11 +30,11 @@ The account verification and reset password functionalities use a test Ethereal 
 
 # Run in your machine
 
-# 1 Windows 10
+# 1 - Windows 10
  - You need basic understanding of Windows to follow this guide.
  - You need admin rights to install the tools without aditional configuration.
 
-## 1.1 Install tools
+## 1.1 - Install tools
  - Node.js:
 	- Download: https://nodejs.org/en/download/.
 	- Run the wizard and install everything that is suggested.
@@ -44,7 +44,7 @@ The account verification and reset password functionalities use a test Ethereal 
 	- Download the installer: https://code.visualstudio.com/Download
 	- Run the installer, accept the terms, uncheck everything that is checked as default and click next until the installation is finished.
 
-## 1.2 Get the project repository to your machine
+## 1.2 - Get the project repository to your machine
  - Choose one of the two options bellow:
 	- Download the project:
 		- Access the link 'https://github.com/AlanDuOl/'.
@@ -54,17 +54,17 @@ The account verification and reset password functionalities use a test Ethereal 
 		- Install Git in your machine if you don't have it already.
 		- Right click inside a folder of your choice and choose 'Git Bash Here' in the pop-up menu or open 'Git Bash' in the Windows start menu and navigate to the folder you want. Inside Git Bash Terminal type 'git clone https://github.com/AlanDuOl/user-auth.git'. This will create a folder called 'user-auth'.
 
-## 1.3 Open the project with Visual Studio Code
+## 1.3 - Open the project with Visual Studio Code
  - Open Visual Studio Code.
  - Go to 'File' menu and choose 'Open Folder' option.
  - Locate the folder created in section 1.2.
  - Select the folder and click the select button or duble click the folder.
  - The project folder will open in Visual Studio Code.
 
-## 1.4 Run projects
+## 1.4 - Run projects
 - Both projects bellow must be running in order for you to use the app.
 
-### 1.4.1 Start front-end project
+### 1.4.1 - Start front-end project
  - Inside Visual Studio Code:
 	- Open a terminal (a window):
 		- Go to 'Terminal' menu option and choose 'New Terminal'. A window will open at the bottom of Visual Studio Code.
@@ -81,7 +81,7 @@ The account verification and reset password functionalities use a test Ethereal 
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
 		- To start the project again you don't need to repeat steps 4 and 5. They are needed only once.
 
-### 1.4.2 Start back-end project
+### 1.4.2 - Start back-end project
  - Inside Visual Studio Code:
  	- Configure send email service:
 		- Create and Ethereal email account (this is used to test the send email functionality):
@@ -121,7 +121,7 @@ The account verification and reset password functionalities use a test Ethereal 
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
 		- To start the project again you don't need to repeat steps 4, 5, 6, 7 and 8. They are needed only once.
 
-### 1.4.3 View project
+### 1.4.3 - View project
  - In a browser of your choice:
 	1 - Go to address bar and type: 'localhost:4200'.
 	2 - Hit Enter key.
