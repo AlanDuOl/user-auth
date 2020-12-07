@@ -10,4 +10,5 @@ export class DialogService {
     const result = window.confirm('Discard form data?');
     return of(result);
   }
+  
 }
