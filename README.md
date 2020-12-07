@@ -27,7 +27,7 @@ The validation email and verification code functionalities use a test Ethereal e
 	- When the installation in PowerShell is finished type 'ENTER' and hit enter key to finish.
  - Visual Studio Code:
 	- Download the installer: https://code.visualstudio.com/Download
-	- Install (TODO)
+	- Run the installer, accept the terms, uncheck everything that is checked as default and click next until the installation is finished.
 
 ## 1.2 Get the project repository to your machine
  - Choose one of the two options bellow:
