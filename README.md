@@ -46,11 +46,11 @@ The account verification and reset password functionalities use a test Ethereal 
 
 ## 1.2 Get the project repository to your machine
  - Choose one of the two options bellow:
-	1 - Download the project:
+	- Download the project:
 		- Access the link 'https://github.com/AlanDuOl/'.
 		- Locate a green button called 'Code' in the '<> Code' menu.
 		- Click the 'Code' button and click the option 'Download ZIP' inside the pop-up menu. This will download the project to your machine in a compressed format (.zip/rar). The file name is 'user-auth-main'. Extract it and a folder named 'user-auth-main' will be created.
-	2 - Clone the project with Git (advanced user):
+	- Clone the project with Git (advanced user):
 		- Install Git in your machine if you don't have it already.
 		- Right click inside a folder of your choice and choose 'Git Bash Here' in the pop-up menu or open 'Git Bash' in the Windows start menu and navigate to the folder you want. Inside Git Bash Terminal type 'git clone https://github.com/AlanDuOl/user-auth.git'. This will create a folder called 'user-auth'.
 
@@ -66,24 +66,24 @@ The account verification and reset password functionalities use a test Ethereal 
 
 ### 1.4.1 Start front-end project
  - Inside Visual Studio Code:
-	1 - Open a terminal (a window):
+	- Open a terminal (a window):
 		- Go to 'Terminal' menu option and choose 'New Terminal'. A window will open at the bottom of Visual Studio Code.
-	2 - Inside the terminal type: 'cd web'.
-	3 - Hit Enter key.
-	4 - Type: 'npm install'.
-	5 - Hit Enter key.
-	6 - Wait (some tools will be installed).
-	7 - Type 'npm start'.
-	8 - Hit Enter key.
-	9 - Wait until the project loaded.
-	10 - The project will be ready to use when you see a message 'Compiled successfully' inside the terminal.
+	- Inside the terminal type: 'cd web'.
+	- Hit Enter key.
+	- Type: 'npm install'.
+	- Hit Enter key.
+	- Wait (some tools will be installed).
+	- Type 'npm start'.
+	- Hit Enter key.
+	- Wait until the project loaded.
+	- The project will be ready to use when you see a message 'Compiled successfully' inside the terminal.
 	- Obs:
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
 		- To start the project again you don't need to repeat steps 4 and 5. They are needed only once.
 
 ### 1.4.2 Start back-end project
  - Inside Visual Studio Code:
- 	1 - Configure send email service:
+ 	- Configure send email service:
 		- Create and Ethereal email account (this is used to test the send email functionality):
 			- Access this link 'https://ethereal.email/' and click the button 'Create Ethereal Account'.
 			- Save the the account credentials for latter use.
@@ -103,20 +103,20 @@ The account verification and reset password functionalities use a test Ethereal 
 			- Inside 'auth' locate 'pass' and put the your Ethereal email SMTP 'Password' inside the empty quotation marks ('').
 			- Save the file: press 'Ctrl + S' or go to 'File' menu and choose 'Save' option.
 			- Close the file.
-	2 - Open a new terminal:
+	- Open a new terminal:
 		- Go to 'Terminal' menu option and choose 'Split Terminal'. A second terminal will open at the bottom of Visual Studio Code.
-    3 - Inside the terminal type: 'cd backend'.
-	4 - Hit Enter key.
-	5 - Type 'npm install'.
-	6 - Hit Enter key.
-	7 - Wait (some tools will be installed).
-    8 - Type 'npm run typeorm migration:run'.
-	9 - Hit Enter key.
-	10 - Wait (some tools will be installed).
-    11 - Type 'npm run dev'.
-	12 - Hit Enter key.
-	13 - Wait until the project is loaded.
-	14 - The project will be ready to use when you see a message 'server listening on port 2000' inside the terminal.
+    - Inside the terminal type: 'cd backend'.
+	- Hit Enter key.
+	- Type 'npm install'.
+	- Hit Enter key.
+	- Wait (some tools will be installed).
+    - Type 'npm run typeorm migration:run'.
+	- Hit Enter key.
+	- Wait (some tools will be installed).
+    - Type 'npm run dev'.
+	- Hit Enter key.
+	- Wait until the project is loaded.
+	- The project will be ready to use when you see a message 'server listening on port 2000' inside the terminal.
 	- Obs:
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
 		- To start the project again you don't need to repeat steps 4, 5, 6, 7 and 8. They are needed only once.
