@@ -58,7 +58,7 @@ The account verification and reset password functionalities use a test Ethereal 
  - Open Visual Studio Code.
  - Go to 'File' menu and choose 'Open Folder' option.
  - Locate the folder created in section 1.2.
- - Select the folder and click the select button or duble click the folder.
+ - Select the folder (click it) and click the select button.
  - The project folder will open in Visual Studio Code.
 
 ## 1.4 - Run projects
