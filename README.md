@@ -32,7 +32,6 @@ The account verification and reset password functionalities use a test Ethereal 
 
 # 1 - Windows 10
  - You need basic understanding of Windows to follow this guide.
- - You need admin rights to install the tools without aditional configuration.
 
 ## 1.1 - Install tools
  - Node.js:
