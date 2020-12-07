@@ -1,17 +1,32 @@
 # User-Auth
 The focus of this project is to create an authentication/authorization system (token/bearer Authentication) to allow access to an API. The project is composed of a front-end built with Angular.js and a RESTful API built with Node.js and Express.js. The API uses an SqLite database built with Typeorm using migrations. Both front-end and API are written in Typescript.
-Authentication strategy sumarized steps:
-	1 - Hash the password with bcrypt using a salt.
-	2 - Stored the password hash in the database.
-	3 - Generate a random string with Node.js crypto module to validate the account.
-	4 - Hash and store the string in the database.
-	5 - Send an email message to user email address with a clickable route to validate the account.
-	6 - On successful login, generete a jwt token with jsonwebtoken package and send it to the client.
-	7 - Client stores the token in localStorage or sessionStorage.
-	8 - Every subsequent request will send the token in 'Authorization' header.
-	9 - Routes that require authentication will validate the token before allow access to resources.
-The authentication system also allows the user to change the account password with a verification code strategy and to resend the account validation email.
-The validation email and verification code functionalities use a test Ethereal email account, not the email used in the account creation. The account email is used to identify the user.
+
+ - Account creation summarized steps:
+	- User sends its data to API endpoint.
+	- Create a user password Hash with bcrypt using a salt.
+	- Store user data with the password hash in the database.
+	- Generate a random string with Node.js crypto module to verify the account.
+	- Hash and store the random string in the database.
+	- Send an email message to user email address with a clickable route to validate the account.
+
+ - Account validation summarized steps:
+	- Send an email message to user email address with a clickable route to validate the account.
+	- User access email account and click the verification link to verify the account.
+	
+ - Authentication summarized steps:
+	- User send credential to API endpoint.
+	- If credentials are valid, generete a jwt token with jsonwebtoken package and send it to the client.
+	- Client stores the token in localStorage or sessionStorage.
+	- Every subsequent request from client will send the token in 'Authorization' header.
+	- Routes that require authentication will validate the token before allow access to resources.
+
+ - Reset password summarized steps:
+	- User request password change.
+	- A vefication code is sent to account email.
+	- Verification code is validated in the API.
+	- User is allowed to change password.
+
+The account verification and reset password functionalities use a test Ethereal email account, not the email used in the account creation. The account email is used to identify the user.
 
 # Run in your machine
 
@@ -111,7 +126,7 @@ The validation email and verification code functionalities use a test Ethereal e
 	1 - Go to address bar and type: 'localhost:4200'.
 	2 - Hit Enter key.
 
-## 1.5 How to use it
+# How to use it
  - Project structure:
 	- Home page:
 		- It contains three buttons that allow the user to make requests to the database. Every button has a different access restriction.
