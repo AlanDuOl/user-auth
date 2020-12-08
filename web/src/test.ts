@@ -21,6 +21,6 @@ getTestBed().initTestEnvironment(
 );
 // Then we find all the tests.
 // const context = require.context('./', true, /\.spec\.ts$/);
-const context = require.context('./', true, /authorization.guard\.spec\.ts$/);
+const context = require.context('./', true, /can-deactivate.guard\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
