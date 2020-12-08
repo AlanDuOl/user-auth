@@ -66,3 +66,30 @@ export const mockRouteSnapshotFail: ActivatedRouteSnapshot = {
     children: null,
     pathFromRoot: null
 }
+
+export const MockConfirm = {
+    
+    message: undefined,
+    returnValue: null,
+    originalConfirm: null,
+
+    install: function() {
+      MockConfirm.message = undefined;
+      MockConfirm.returnValue = true;
+      MockConfirm.originalConfirm = window.confirm;
+  
+      window.confirm = function(message) {
+        MockConfirm.message = message;
+        return MockConfirm.returnValue;
+      };
+    },
+  
+    uninstall: function() {
+      window.confirm = MockConfirm.originalConfirm;
+    },
+  
+    willReturn: function(returnValue) {
+      MockConfirm.returnValue = returnValue;
+    }
+
+};
