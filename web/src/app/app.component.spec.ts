@@ -1,35 +1,54 @@
-import { TestBed, async } from '@angular/core/testing';
+import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AuthMenuComponent } from '../api-auth/auth-menu/auth-menu.component';
 import { AppComponent } from './app.component';
+import { FooterComponent } from '../app/footer/footer.component';
+import { MenuComponent } from '../app/menu/menu.component';
+import { MockAuthMenuComponent } from '../mock-data';
 
 describe('AppComponent', () => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+  let element: HTMLElement;
+  
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
       ],
       declarations: [
-        AppComponent
+        AppComponent,
+        FooterComponent,
+        MenuComponent,
+        MockAuthMenuComponent
       ],
     }).compileComponents();
   }));
 
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+    element = fixture.debugElement.nativeElement;
+    fixture.detectChanges();
+  });
+
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   it(`should have as title 'user-auth'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('user-auth');
+    expect(component.title).toEqual('user-auth');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('user-auth app is running!');
+  it('should render app-menu', () => {
+    const menu = element.querySelector('app-menu');
+    // assert
+    expect(menu).not.toBeNull();
+  });
+
+  it('should render router-outlet', () => {
+    const routerOutlet = element.querySelector('router-outlet');
+    // assert
+    expect(routerOutlet).not.toBeNull();
   });
 });
