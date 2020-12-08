@@ -1,6 +1,5 @@
 import { TestBed, async, ComponentFixture } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { AuthMenuComponent } from '../api-auth/auth-menu/auth-menu.component';
 import { AppComponent } from './app.component';
 import { FooterComponent } from '../app/footer/footer.component';
 import { MenuComponent } from '../app/menu/menu.component';
