@@ -1,7 +1,11 @@
 import { Component } from '@angular/core';
 import { ActivatedRouteSnapshot, convertToParamMap, UrlSegment } from '@angular/router';
-import { of } from 'rxjs';
 import { AuthUser, IUser } from './models';
+
+@Component({
+    selector: 'app-auth-menu'
+})
+export class MockAuthMenuComponent { }
 
 @Component({
     selector: 'mock-component'
