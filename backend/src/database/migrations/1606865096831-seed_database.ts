@@ -12,7 +12,7 @@ export class seedDatabase1606865096831 implements MigrationInterface {
         await queryRunner.query(`INSERT INTO "user"
         ("name", "email", "passwordHash", "isVerified", "createdAt", "updatedAt", "resetPasswordDate")
         VALUES ("boris", "boris@gmail.com",
-        "$2a$10$n8jNPKlA/./YuN7LUHsJoeQcIuySym5AKY9.J5YyRlSOkBYg93n12", "1",
+        "$2a$10$pI04dOiYRDMt8DXoSXyDXOqNHQ17UOqQsK0cz3.7mqCdqe458q6fi", "1",
         "2020-11-30T16:03:50.454Z",
         "2020-11-30T16:03:50.454Z",
         "2020-11-30T16:03:50.454Z"
