@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import Verification from '../models/verification';
+import Verification from '../models/Verification';
 import userService from './userService';
 import User from '../models/user';
 import utils from '../utils';
