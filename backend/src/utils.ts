@@ -16,8 +16,8 @@ const utils = {
             host: 'smtp.ethereal.email',
             port: 587,
             auth: {
-                user: 'margarete.prohaska19@ethereal.email',
-                pass: 'FydbZTKHQvV8DnTFbc'
+                user: '',
+                pass: ''
             }
         });
         // verify if configuration is working
