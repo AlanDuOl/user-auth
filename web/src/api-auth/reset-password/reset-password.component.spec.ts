@@ -3,7 +3,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ResetPasswordComponent } from './reset-password.component';
 import { PageLoaderComponent } from '../../app/page-loader/page-loader.component';
-import { mockRouteSnapshot } from '../../mock-data';
+import { mockRouteSnapshot, mockRouteSnapshotFail } from '../../mock-data';
 import { AuthService } from '../auth.service';
 import { of, throwError } from 'rxjs';
 import { uiPath } from 'src/constants';
@@ -68,8 +68,8 @@ describe('ResetPasswordComponent', () => {
 
   it('invalid id should redirect to home page', () => {
     const expectedRoute = [uiPath.home];
-    // set id to invalid value
-    component.resetId = null;
+    // make snapshot return invalid id
+    activatedRoute.snapshot = mockRouteSnapshotFail;
     // call ngOnInit
     component.ngOnInit();
     // should call navigate with route
