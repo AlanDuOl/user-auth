@@ -1,9 +1,9 @@
 <section>
     <p>This is the home page</p>
     <section class="actions">
-        <button type="button" (click)="publicRequest()">Public request</button>
-        <button type="button" (click)="adminRequest()">Admin request</button>
-        <button type="button" (click)="userRequest()">User request</button>
+        <button type="button" class="public" (click)="publicRequest()">Public request</button>
+        <button type="button" class="admin" (click)="adminRequest()">Admin request</button>
+        <button type="button" class="user" (click)="userRequest()">User request</button>
     </section>
     <p class="reponse-msg" *ngIf="message | async">{{message | async}}</p>
 </section>
