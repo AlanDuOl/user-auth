@@ -74,7 +74,7 @@ The account verification and reset password functionalities use a test Ethereal 
 	- Wait (some tools will be installed).
 	- Type 'npm start'.
 	- Hit Enter key.
-	- Wait until the project loaded.
+	- Wait until the project load.
 	- The project will be ready to use when you see a message 'Compiled successfully' inside the terminal.
 	- Obs:
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
@@ -114,7 +114,7 @@ The account verification and reset password functionalities use a test Ethereal 
 	- Wait (some tools will be installed).
     - Type 'npm run dev'.
 	- Hit Enter key.
-	- Wait until the project is loaded.
+	- Wait until the project load.
 	- The project will be ready to use when you see a message 'server listening on port 2000' inside the terminal.
 	- Obs:
 		- To stop the project press 'Ctrl + C' inside the terminal window then type 's' and hit 'Enter' key.
