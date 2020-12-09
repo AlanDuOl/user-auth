@@ -8,7 +8,7 @@ export class seedDatabase1606865096831 implements MigrationInterface {
         await queryRunner.query(`INSERT INTO "role" ("name") VALUES ('Admin')`);
         await queryRunner.query(`INSERT INTO "role" ("name") VALUES ('User')`);
         // seed admin user
-        // password is A1234/56
+        // password is Ab1234/5
         await queryRunner.query(`INSERT INTO "user"
         ("name", "email", "passwordHash", "isVerified", "createdAt", "updatedAt", "resetPasswordDate")
         VALUES ("boris", "boris@gmail.com",
