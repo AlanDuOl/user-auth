@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class updateDatabase1606865052677 implements MigrationInterface {
-    name = 'updateDatabase1606865052677'
+export class createDatabase1607549675475 implements MigrationInterface {
+    name = 'createDatabase1607549675475'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "role" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, CONSTRAINT "UQ_ae4578dcaed5adff96595e61660" UNIQUE ("name"))`);
         await queryRunner.query(`CREATE TABLE "verification" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "userId" integer, CONSTRAINT "REL_8300048608d8721aea27747b07" UNIQUE ("userId"))`);
-        await queryRunner.query(`CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "email" varchar NOT NULL, "passwordHash" varchar NOT NULL, "isVerified" boolean NOT NULL, "createdAt" datetime NOT NULL, "updatedAt" datetime NOT NULL, "resetPasswordDate" datetime NOT NULL)`);
+        await queryRunner.query(`CREATE TABLE "user" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar NOT NULL, "email" varchar NOT NULL, "passwordHash" varchar NOT NULL, "isVerified" boolean NOT NULL, "createdAt" datetime NOT NULL, "resetPasswordDate" datetime NOT NULL)`);
         await queryRunner.query(`CREATE TABLE "change_password" ("token" varchar PRIMARY KEY NOT NULL, "expiresAt" datetime NOT NULL, "validated" boolean NOT NULL, "userId" integer, CONSTRAINT "REL_46bfee4492162a8886653c3967" UNIQUE ("userId"))`);
         await queryRunner.query(`CREATE TABLE "userRoles" ("userId" integer NOT NULL, "roleId" integer NOT NULL, PRIMARY KEY ("userId", "roleId"))`);
         await queryRunner.query(`CREATE INDEX "IDX_fdf65c16d62910b4785a18cdfc" ON "userRoles" ("userId") `);

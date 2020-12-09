@@ -25,9 +25,6 @@ export default class User {
     createdAt: Date;
 
     @Column()
-    updatedAt: Date;
-
-    @Column()
     resetPasswordDate: Date;
 
     @ManyToMany(() => Role, { cascade: true })

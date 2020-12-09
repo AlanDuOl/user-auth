@@ -7,7 +7,6 @@ export interface NewUser {
     roles: Role[],
     isVerified: boolean,
     createdAt: Date,
-    updatedAt: Date,
     resetPasswordDate: Date
 }
 
