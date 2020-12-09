@@ -21,6 +21,10 @@ export const mockError = {
     error: { message: 'error message'}
 }
 
+export const mockResponse = {
+    message: 'successful request'
+  }
+
 export const mockAuthUser: AuthUser = {
     id: 1,
     name: 'mockuser',
