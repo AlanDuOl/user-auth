@@ -7,7 +7,8 @@ const utils = {
     getCurrentTime(): number {
         // wrong date. Date.now is returning Europe timezone
         // subtract 3h
-        const currentTime = Date.now() - 3600000 * 3;
+        // const currentTime = Date.now() - 3600000 * 3;
+        const currentTime = Date.now();
         return currentTime;
     },
 
