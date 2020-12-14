@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 
-const accountController = {
+const genericController = {
 
     async getPublicAsync(req: Request, res: Response) {
         return res.status(200).json({ message: 'Public request complete' });
@@ -16,4 +16,4 @@ const accountController = {
 
 }
 
-export default accountController;
+export default genericController;
