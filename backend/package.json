@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "mocha -r ts-node/register test/*.spec.ts"
+    "test": "nodemon --exec mocha -r ts-node/register test/*.spec.ts"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +37,7 @@
     "@types/yup": "^0.29.9",
     "chai": "^4.2.0",
     "mocha": "^8.2.1",
+    "nodemon": "^2.0.6",
     "sinon": "^9.2.2",
     "ts-node-dev": "^1.0.0",
     "typescript": "^4.0.5"
